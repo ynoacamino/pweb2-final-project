@@ -3,7 +3,7 @@ bin
 cache
 lib
 pyvenv.cfg
-__pycache__
+**/__pycache__/
 
 /node_modules
 /.pnp
@@ -30,6 +30,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+**/.env
 .env*.local
 
 # vercel
