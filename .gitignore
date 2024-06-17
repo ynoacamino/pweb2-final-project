@@ -3,6 +3,7 @@ bin
 cache
 lib
 pyvenv.cfg
+__pycache__
 
 /node_modules
 /.pnp
