@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('media_manager/', include('media_manager.urls'))
+    path('media_manager/', include('media_manager.urls')),
+    path('academia/', include('academia.urls')),
 ]
