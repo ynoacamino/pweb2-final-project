@@ -20,7 +20,7 @@ export function Header() {
   ];
 
   return (
-    <header className="w-full px-6 flex justify-center items-center sticky top-0">
+    <header className="w-full px-6 flex justify-center items-center sticky top-0 backdrop-blur-md bg-neutral-100/40 dark:bg-slate-800/40 z-50">
       <div className="w-full max-w-6xl py-4 flex justify-between">
         <Link href="/" className="flex items-center gap-1 text-3xl font-bold text-primary">
           <Logo className="w-10 h-10" />
