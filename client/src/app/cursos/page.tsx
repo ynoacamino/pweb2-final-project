@@ -2,6 +2,7 @@ import Certifications from '@/components/pages/courses/Certifications';
 import { CoursesList } from '@/components/pages/courses/CoursesList';
 import Info from '@/components/pages/courses/Info';
 import Title from '@/components/pages/courses/Title';
+import Questions from '@/components/pages/courses/Questions';
 
 export default function cursosPage() {
   return (
@@ -10,6 +11,7 @@ export default function cursosPage() {
       <CoursesList />
       <Certifications />
       <Info />
+      <Questions />
     </main>
   );
 }
