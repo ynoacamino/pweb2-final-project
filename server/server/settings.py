@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'corsheaders',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,3 +131,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Theses can take request to our server
 CORS_ALLOWED_ORIGINS = []
+
+# AutoShema (API documentation)
+REST_FRAMEWORK = {
+  'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+  'TITLE': 'Learning Academy API',
+  'DESCRIPTION': 'The best programming academy',
+  'VERSION': '1.0.0',
+  'SERVE_INCLUDE_SCHEMA': False,
+  'SWAGGER_UI_DIST': 'SIDECAR',
+  'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+  'REDOC_DIST': 'SIDECAR',
+}
