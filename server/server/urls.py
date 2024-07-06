@@ -24,7 +24,7 @@ urlpatterns = [
     path('academia/', include('academia.urls')),
 
     # Documentation API
+    path('docs/', SpectacularAPIView.as_view(), name='docs'),
     path('docs/swagger-ui/', SpectacularSwaggerView.as_view(url_name='docs'), name='swagger-ui'),
     path('docs/redoc/', SpectacularRedocView.as_view(url_name='docs'), name='redoc'),
-    # path('docs/', SpectacularAPIView.as_view(), name='docs'),
 ]
