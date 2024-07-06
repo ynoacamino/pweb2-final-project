@@ -1,8 +1,5 @@
 # created by virtualenv automatically
-bin
-cache
-lib
-pyvenv.cfg
+**/venv/
 **/__pycache__/
 
 /node_modules
