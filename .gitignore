@@ -1,8 +1,5 @@
 # created by virtualenv automatically
-bin
-cache
-lib
-pyvenv.cfg
+**/venv/
 **/__pycache__/
 
 /node_modules
@@ -39,3 +36,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# latex
+*.aux
+*.out
+*.log
+_minted-final_project_part1
