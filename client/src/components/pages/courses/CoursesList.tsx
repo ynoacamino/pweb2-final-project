@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -8,24 +7,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+
+import  { useFetch } from '../fetch/useFetch';
 import CourseCard from './CourseCard';
 
 export function CoursesList() {
-  const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:8000/academia/api/curso/')
-      .then(response => {
-        if (!response.ok)
-          throw new Error('Respuesta HTTP incorrecta');
-
-        return response.json();
-      })
-      .then(data => setCourses(data))
-      .catch(error => {
-        console.error('Hubo un error inesperado:', error);
-      });
-  }, []);
+  const { courses } = useFetch('http://localhost:8000/academia/api/curso/')
 
   return (
     <Carousel className="w-full max-w-6xl my-20">
