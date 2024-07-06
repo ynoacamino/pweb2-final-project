@@ -13,13 +13,15 @@
 
 % Syntax customization with minted package
 \usepackage{minted}
+\usepackage[outputdir=build]{minted}
 \usemintedstyle{nord-darker}
 \usemintedstyle[zsh]{gruvbox-light}
 \setminted{
   breaklines,
   linenos,
   frame=lines,
-  fontsize=\normalsize
+  fontsize=\normalsize,
+  bgcolor=background
 }
 
 % shoetcut to include python code in a line
@@ -69,8 +71,8 @@
 	{\large \mydate \par}
 \end{titlepage}
 
-\include{backend}
+% \include{backend}
 \include{frontend-part1}
-\include{frontend-part2}
+% \include{frontend-part2}
 
 \end{document}
