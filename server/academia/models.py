@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Teacher(models.Model):
-    teacher_id = models.IntegerField(primary_key=True)
+    teacher_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
     email = models.EmailField()
@@ -12,7 +12,7 @@ class Teacher(models.Model):
         return self.name
     
 class User(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
     email = models.EmailField()
@@ -21,11 +21,12 @@ class User(models.Model):
         return self.name
 
 class Curso(models.Model):
-    curso_id = models.IntegerField(primary_key=True)
+    curso_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    users = models.ManyToManyField(User, related_name='usuarios')
+    users = models.ManyToManyField(User, related_name='usuarios', blank=True)
+    # img = models.image()
 
     def _str_(self):
         return self.name
@@ -39,7 +40,7 @@ class Review(models.Model):
         return f'Reseña hecho/a por {self.user.name} hacia el curso {self.curso.name}'
     
 class Section(models.Model):
-    section_id = models.IntegerField(primary_key=True)
+    section_id = models.AutoField(primary_key=True)
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
