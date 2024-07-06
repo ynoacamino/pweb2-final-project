@@ -130,7 +130,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Theses can take request to our server
-CORS_ALLOWED_ORIGINS = []
+CORS_ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+]
 
 # AutoShema (API documentation)
 REST_FRAMEWORK = {
