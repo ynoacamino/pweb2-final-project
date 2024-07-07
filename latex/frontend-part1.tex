@@ -1,0 +1,156 @@
+\section{Frontend de la aplicación}
+El directorio \texttt{client/} contiene el código fuente que está organizado de acuerdo al uso de \texttt{webpack}, un empaquetador de módulos JavaScript. Webpack es un paquete que se encarga de compilar múltiples archivos JavaScript, CSS y otros activos en un solo archivo o en varios archivos optimizados para la producción. Este paquete es utilizado por React, el framework más popular a nivel mundial para construir interfaces de usuario.
+
+\subsection{tecnologías usadas}
+\subsubsection{Framework React}
+React es una biblioteca de JavaScript desarrollada por Facebook para construir interfaces de usuario. Se basa en componentes, lo que permite crear elementos de UI reutilizables y gestionables. Cada componente de React puede manejar su propio estado y lógica, y se puede combinar con otros componentes para crear aplicaciones complejas. 
+\singlespacing
+React también facilita la creación de aplicaciones web modernas con arquitecturas basadas en componentes, lo que permite a los desarrolladores dividir la UI en piezas más pequeñas y manejables. Esta modularidad no solo mejora la organización del código, sino que también facilita el mantenimiento y la escalabilidad del proyecto.
+
+\paragraph{Ventajas de Usar React}
+\begin{itemize}
+  \item \textbf{Componentes Reutilizables}: Los componentes de React pueden ser reutilizados en diferentes partes de la aplicación, lo que reduce la duplicación de código y facilita el mantenimiento.
+  \item \textbf{Virtual DOM}: Permite actualizaciones eficientes y rápidas del DOM, mejorando el rendimiento de la aplicación.
+  \item \textbf{JSX}: Una extensión de JavaScript que permite escribir HTML dentro de JavaScript, haciendo que el código sea más legible y fácil de escribir.
+  \item \textbf{Unidirectional Data Flow}: La gestión del estado en React es más predecible gracias al flujo de datos unidireccional, lo que facilita la depuración y el seguimiento de cómo los datos fluyen a través de la aplicación.
+\end{itemize}
+
+\paragraph{Estructura de un Componente React}
+Cada componente en React puede definirse como una función o una clase que devuelve un fragmento de la interfaz de usuario. A continuación, se muestra un ejemplo de un componente funcional básico en React:
+
+\begin{minted}{javascript}
+import React from 'react';
+
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+export default Welcome;
+\end{minted}
+
+En este ejemplo, \texttt{Welcome} es un componente funcional que toma \texttt{props} (propiedades) como argumento y retorna un encabezado con un saludo personalizado. Los componentes de clase también pueden definir métodos de ciclo de vida y manejar estados internos más complejos.
+
+\subsection{Integración con Tailwind CSS}
+Para estilizar los componentes de React, en este proyecto se utiliza Tailwind CSS. Tailwind es un framework de utilidades CSS que permite aplicar estilos directamente en los componentes mediante clases predefinidas. Esta metodología facilita el desarrollo de interfaces de usuario rápidas y consistentes.
+
+El siguiente es un ejemplo de un componente estilizado con Tailwind CSS:
+
+\begin{minted}{typescript}
+import React from 'react';
+
+function Button({ label }) {
+  return (
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      {label}
+    </button>
+  );
+}
+
+export default Button;
+\end{minted}
+
+En este ejemplo, las clases de Tailwind se utilizan para definir el estilo del botón, como el color de fondo, el comportamiento al pasar el ratón por encima, el color del texto y el espaciado.
+
+\subsubsection{Webpack}
+Webpack es una herramienta de construcción de módulos que se utiliza para agrupar, compilar y gestionar dependencias en proyectos JavaScript. Permite transformar archivos de diferentes tipos (JavaScript, CSS, imágenes, etc.) en un conjunto de activos que pueden ser servidos por un servidor web. Algunas características clave de Webpack incluyen:
+
+\begin{itemize}
+    \item \textbf{Entrada y Salida}: Webpack toma uno o varios archivos de entrada y los transforma en uno o varios archivos de salida optimizados.
+    \item \textbf{Loaders}: Transforman archivos de otros tipos en módulos válidos que Webpack puede procesar.
+    \item \textbf{Plugins}: Extienden la funcionalidad de Webpack para optimizar el empaquetado, gestionar el hot reloading, minificación, entre otros.
+    \item \textbf{Code Splitting}: Permite dividir el código en diferentes archivos para optimizar el rendimiento y la carga inicial de la aplicación.
+\end{itemize}
+
+\subsubsection{Next.js}
+Next.js es un framework para React que permite la creación de aplicaciones web tanto del lado del cliente como del servidor. Facilita la implementación de aplicaciones web con funcionalidades como el renderizado del lado del servidor (SSR), generación de sitios estáticos (SSG), y rutas dinámicas.
+
+\begin{itemize}
+    \item \textbf{Renderizado del Lado del Servidor (SSR)}: Permite generar contenido HTML en el servidor en lugar del cliente, lo que puede mejorar el rendimiento y SEO.
+    \item \textbf{Generación de Sitios Estáticos (SSG)}: Genera páginas HTML estáticas en el momento de la compilación, optimizando el rendimiento y tiempo de carga.
+    \item \textbf{Rutas Dinámicas}: Facilita la creación de rutas dinámicas basadas en la estructura de archivos del proyecto.
+    \item \textbf{API Routes}: Permite definir endpoints API dentro del proyecto Next.js, facilitando la creación de backends ligeros.
+\end{itemize}
+
+Este directorio \texttt{client/} contiene una estructura definida y varios archivos de configuración esenciales para la correcta implementación de la aplicación.
+
+\begin{itemize}
+  \item \texttt{.eslintrc.json}: Configuración de ESLint para mantener la calidad y consistencia del código. A continuación se muestra un extracto relevante:
+  \inputminted{json}{../client/.eslintrc.json}
+
+  \item \texttt{tailwind.config.ts}: Configuración de Tailwind CSS para definir temas, colores, espaciados y otras utilidades personalizadas que se usarán en el proyecto:
+  \inputminted{typescript}{../client/tailwind.config.ts}
+
+  \item \texttt{postcss.config.mjs}: Configuración de PostCSS para transformar CSS con plugins, como \texttt{autoprefixer}:
+  \inputminted{javascript}{../client/postcss.config.mjs}
+
+  \item \texttt{tsconfig.json}: Configuración del compilador TypeScript para especificar opciones de compilación y manejo de archivos:
+  \inputminted{json}{../client/tsconfig.json}
+
+  \item \texttt{next.config.mjs}: Configuración específica de Next.js para definir rutas personalizadas, configuraciones de webpack y variables de entorno:
+  \inputminted{javascript}{../client/next.config.mjs}
+
+  \item \texttt{package.json}: Listado de dependencias y scripts del proyecto, incluyendo librerías y herramientas necesarias para el desarrollo y producción:
+  \inputminted{json}{../client/package.json}
+
+  \item \texttt{public/}: Contiene archivos estáticos como imágenes y fuentes que son servidos directamente por el servidor web.
+\end{itemize}
+
+\subsection{Autenticación con NextAuth}
+NextAuth.js es una biblioteca completa para la autenticación en aplicaciones Next.js, soportando varios proveedores de autenticación. 
+
+\subsubsection{Configuración de NextAuth}
+La configuración se encuentra en \texttt{src/app/api/auth/[...nextauth]/authOptions.ts}. Este archivo define los proveedores de autenticación y los callbacks para manejar eventos durante el flujo de autenticación:
+\inputminted{typescript}{../client/src/app/api/auth/\[...nextauth\]/authOptions.ts}
+
+\subsubsection{Manejo de Rutas de Autenticación}
+El endpoint de la API para autenticación está definido en \texttt{src/app/api/auth/[...nextauth]/route.ts}:
+\inputminted{typescript}{../client/src/app/api/auth/\[...nextauth\]/route.ts}
+
+\subsection{Lógica del Proyecto}
+La lógica del proyecto se distribuye principalmente en el directorio \texttt{client/src/app/}, donde se define cómo se va a presentar el proyecto. 
+
+\subsection{Estructura de Páginas y Componentes}
+En este directorio, se organizan los componentes y páginas de la aplicación, excluyendo los que se encuentran en \texttt{client/src/components}, los cuales serán explicados a detalle porque son los components semilla que sirven de construcción para los componentes compuestos de este directorio.. Aquí se define la lógica de presentación y cómo interactúan los distintos componentes.
+
+\section{Layout y Páginas}
+El directorio \texttt{client/src/app/} contiene la estructura principal y las páginas de la aplicación. A continuación, se detallan los archivos más importantes.
+
+\subsection{Layout Principal}
+El archivo \texttt{layout.tsx} es el punto de entrada principal para la estructura del sitio. Define el layout global que se aplica a todas las páginas de la aplicación, proporcionando una consistencia en el diseño y la estructura.
+
+\inputminted{typescript}{../client/src/app/layout.tsx}
+
+En este archivo, se importa el archivo CSS global de Tailwind para aplicar los estilos a toda la aplicación. La estructura básica del layout incluye un componente \texttt{Header}, que puede contener elementos de navegación y logotipos, y un \texttt{main} que envuelve el contenido principal de cada página. El componente \texttt{children} representa el contenido dinámico que cambia según la página que se esté renderizando.
+\singlespacing
+El layout también puede incluir otros componentes comunes como el \texttt{Footer} y \texttt{Sidebar}, asegurando que todos los elementos de la UI compartidos se mantengan consistentes en toda la aplicación.
+
+\subsection{Páginas y Rutas}
+Cada página de la aplicación se define en un archivo separado dentro de \texttt{client/src/app/}. A continuación, se muestra un ejemplo de la página principal:
+
+\inputminted{typescript}{../client/src/app/page.tsx}
+
+En este archivo, la función principal exporta el contenido de la página, utilizando componentes de React para estructurar y estilizar la UI. En este caso, la página principal incluye un título y una descripción, junto con otros componentes que podrían estar presentes.
+
+\subsection{Curso y Cursos}
+Los directorios \texttt{curso} y \texttt{cursos} contienen archivos que definen las páginas y componentes específicos para manejar los cursos de la academia virtual. A continuación, se explica el contenido de estos directorios.
+
+\subsubsection{Directorio \texttt{curso}}
+El directorio \texttt{curso} contiene la estructura y lógica para mostrar información detallada de un curso específico. Esto incluye la descripción del curso, secciones, instructor y recursos adicionales.
+
+\inputminted{typescript}{../client/src/app/[cursoID]/page.tsx}
+
+Este archivo es una página dinámica que muestra información detallada de un curso basado en su \texttt{id}. Utiliza el hook \texttt{useRouter} de Next.js para obtener el \texttt{id} de la URL y fetch datos del curso correspondiente desde la API. Se muestran detalles como el título del curso, descripción, secciones y el instructor.
+
+\subsubsection{Directorio \texttt{cursos}}
+El directorio \texttt{cursos} contiene la estructura y lógica para manejar la lista de todos los cursos y puede incluir filtros, búsqueda y categorización de los cursos.
+
+\textbf{page.tsx}:
+\inputminted{typescript}{../client/src/app/cursos/page.tsx}
+
+Este archivo muestra una lista de todos los cursos disponibles en la plataforma. Puede incluir filtros para buscar cursos por nombre, categoría o nivel de dificultad. Utiliza fetch para obtener los datos de los cursos desde la API y muestra cada curso en una tarjeta.
+\singlespacing
+Este archivo muestra los cursos filtrados por una categoría específica. Utiliza el hook \texttt{useRouter} de Next.js para obtener la categoría de la URL y fetch los cursos que pertenecen a esa categoría desde la API. Los cursos se muestran en tarjetas similares al archivo \texttt{index.tsx}.
+
+\subsection{Fetch de Datos}
+Aunque la funcionalidad de fetch aún no está implementada, veremos que su inclusión será para mejorar la interacción con el backend y la presentación dinámica de datos.
+

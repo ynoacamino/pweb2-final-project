@@ -1,0 +1,81 @@
+\documentclass[10pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english, spanish]{babel}
+\usepackage[left=25mm, right=25mm, top=35mm, bottom=30mm, headheight=35mm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+% Syntax customization with minted package
+\usepackage{minted}
+\usepackage[outputdir=build]{minted}
+\usemintedstyle{nord-darker}
+\usemintedstyle[zsh]{gruvbox-light}
+\setminted{
+  breaklines,
+  linenos,
+  frame=lines,
+  fontsize=\normalsize,
+  bgcolor=background
+}
+
+% shoetcut to include python code in a line
+\newcommand{\mpy}[1]{\mintinline[style=gruvbox-light]{python}{#1}}
+
+% Define background color
+\definecolor{background}{HTML}{2E3440}
+
+% Variables
+\newcommand{\university}{Universidad Nacional de San Agustín de Arequipa}
+\newcommand{\faculty}{Facultad de Ingeniería de Producción y Servicios}
+\newcommand{\program}{Escuela Profesional de Ingeniería de Sistemas}
+\newcommand{\semester}{2024 - A}
+\newcommand{\course}{img/web_programming.png}
+\newcommand{\topic}{img/django_react.png}
+\newcommand{\professor}{Carlo Jose Luis Corrales Delgado}
+\newcommand{\students}{Yenaro Joel Noa Camino\\Armando Steven Cuno Cahuari\\Victor Narciso Mamani Anahua\\Jorge Luis Mamani Huarsaya}
+\newcommand{\github}{https://github.com/ynoacamino/pweb2-final-project}
+\newcommand{\figma}{https://www.figma.com/design/m7RQxtCLrHm5ZyCNtoCk6J/Learning-Plataform?node-id=0-1&t=Kgg9BpkP8D86LnTM-0}
+\newcommand{\mydate}{6 de julio, 2024}
+
+% Just parts and chapters numbered
+\setcounter{secnumdepth}{0}
+
+% Head and foot customization
+\pagestyle{fancy}
+\lhead{\raisebox{-0.2\height}{\includegraphics[width=4cm]{img/logo_unsa.png}}}
+\chead{\fontsize{8}{8}\selectfont \university \\ \faculty \\ \textbf{\program}}
+\rhead{\raisebox{-0.2\height}{\includegraphics[width=3.5cm]{img/logo_episunsa.png}}}
+\lfoot{Semestre \semester}
+\cfoot{}
+\rfoot{Pág. \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+	\centering
+	\includegraphics[width=15cm]{\course} \par
+  \vfill \vfill
+	\includegraphics[width=15cm]{\topic}\par
+  \vfill \vfill
+  {\textbf{Profesor(a):} \par}
+	\professor \vfill
+  {\textbf{Estudiantes:} \par}
+	\students \vfill
+  {\textbf{Repositorio GitHub:} \par}
+  \href{\github}{\github} \vfill
+  {\textbf{Link del Figma:} \par}
+  \href{\figma}{\figma} \vfill
+	{\large \mydate \par}
+\end{titlepage}
+
+\include{backend}
+\include{frontend-part2}
+\include{frontend-part1}
+
+\end{document}

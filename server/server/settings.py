@@ -31,8 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'media_manager',
     'academia',
     'django_extensions',
+    'rest_framework',
+    'corsheaders',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,8 +49,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -105,9 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Lima'
 
 USE_I18N = True
 
@@ -123,3 +128,21 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Theses can take request to our server
+CORS_ALLOWED_ORIGINS = []
+
+# AutoShema (API documentation)
+REST_FRAMEWORK = {
+  'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+  'TITLE': 'Learning Academy API',
+  'DESCRIPTION': 'The best programming academy',
+  'VERSION': '1.0.0',
+  'SERVE_INCLUDE_SCHEMA': False,
+  'SWAGGER_UI_DIST': 'SIDECAR',
+  'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+  'REDOC_DIST': 'SIDECAR',
+}

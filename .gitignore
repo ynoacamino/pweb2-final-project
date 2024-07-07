@@ -1,8 +1,6 @@
 # created by virtualenv automatically
-bin
-cache
-lib
-pyvenv.cfg
+**/venv/
+**/__pycache__/
 
 /node_modules
 /.pnp
@@ -29,6 +27,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+**/.env
 .env*.local
 
 # vercel
@@ -37,3 +36,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# latex
+*.aux
+*.log
+*.out
+*.toc
+*.pyg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+_minted-final_project_part1

@@ -1,0 +1,350 @@
+\section*{Backend - Proyecto PWEB}
+En esta sección, explicaremos detalladamente la implementación del backend para el proyecto.
+\subsection*{Descripcion General}
+El backend del proyecto está construido utilizando Django, un framework de alto nivel para el desarrollo de aplicaciones web en Python.
+\subsection*{Estructura del Proyecto}
+\begin{minted}[bgcolor=white]{text}
+	server/
+	│-- academia/
+	│   │-- migrations/         # Archivos de migraciones de base de datos
+	│   │   |-- __init__.py     # Inicialización del módulo de migraciones
+	│   │   |-- 0001_initial.py # Migración inicial
+	│   │-- __init__.py         # Inicialización del módulo academia
+	│   │-- admin.py            # Registro de modelos en el admin de Django
+	│   │-- apps.py             # Configuración de la aplicación academia
+	│   │-- models.py           # Definición de modelos de datos
+	│   │-- serializers.py      # Serializadores para la API
+	│   │-- tests.py            # Pruebas unitarias para la aplicación
+	│   │-- urls.py             # Enrutamiento de URLs específicas de la aplicación
+	│   │-- views.py            # Vistas y lógica de controladores
+	│-- media_manager/
+	│   │-- migrations/         # Archivos de migraciones de base de datos
+	│   │   |-- __init__.py     # Inicialización del módulo de migraciones
+	│   │-- __init__.py         # Inicialización del módulo media_manager
+	│   │-- admin.py            # Registro de modelos en el admin de Django
+	│   │-- apps.py             # Configuración de la aplicación media_manager
+	│   │-- urls.py             # Enrutamiento de URLs específicas de la aplicación
+	│   │-- views.py            # Vistas y lógica de controladores
+	│-- server/
+	│   │-- __init__.py         # Inicialización del módulo principal del proyecto
+	│   │-- asgi.py             # Configuración para el servidor ASGI
+	│   │-- settings.py         # Configuraciones del proyecto Django
+	│   │-- urls.py             # Enrutamiento de URLs del proyecto principal
+	│   │-- wsgi.py             # Configuración para el servidor WSGI
+	│-- .env.example            # Archivo de ejemplo para las variables de entorno
+	│-- db.sqlite3              # Archivo de base de datos SQLite (para desarrollo)
+	│-- manage.py               # Script principal para gestionar el proyecto
+	│-- requirements.txt        # Lista de dependencias del proyecto
+\end{minted}
+La estructura del proyecto está diseñada para facilitar la organización, el mantenimiento y la escalabilidad. A continuación, se presentará dicha estructura.
+\subsection*{Flujo de Trabajo}
+\begin{enumerate}
+	\item El usuario enviara una solicitud HTTP al servidor.
+	\item La solicitud se enrutara atraves de los archivos 'urls.py' al controlador adecuado en el modulo de vistas.
+	\item El controlador maneja la logica de la solicitud, interactua con los modelos de datos y utiliza los serializadores si es necesario.
+	\item La respuesta es devuelta al usuario en formato JSON atraves de la API RESTful
+\end{enumerate}
+Explicaremos la composición de cada módulo en nuestro proyecto para ilustrar el flujo de trabajo de Django utilizado para el backend.
+\subsection*{Módulo Academia}
+La creación de nuestra aplicación dentro del proyecto backend es fundamental ya que cumple roles esenciales. Cada aplicación en Django actúa como un componente independiente que gestiona una parte específica de la funcionalidad del proyecto. 
+\begin{enumerate}
+	\item \textbf{Módulo models}: \\
+	Definiremos varios modelos en Django para el proyecto relacionado con cursos, usuarios, reseñas, PDFs, entre otros. Cada modelo utilizará diferentes tipos de campos para su representación en la base de datos. Estableceremos relaciones entre estos modelos utilizando `ManyToManyField` y `ForeignKey` según sea necesario para capturar las interacciones y la estructura de datos requerida por la aplicación.
+	Las relaciones que guardan los modelos son:\\
+	Relacion de uno a muchos:
+	\begin{itemize}
+		\item Curso a Teacher
+		\item Review a User
+		\item Review a Curso
+		\item Section a Curso
+		\item Pdf a Section
+	\end{itemize}
+	Relacion de muchos a muchos:
+	\begin{itemize}
+		\item Curso a User
+	\end{itemize}
+	\begin{minted}{python}
+		from django.db import models
+		
+		class Teacher(models.Model):
+		teacher_id = models.IntegerField(primary_key=True)
+		name = models.CharField(max_length=255)
+		phone_number = models.CharField(max_length=255)
+		email = models.EmailField()
+		
+		def _str_(self):
+		return self.name
+		
+		class User(models.Model):
+		user_id = models.IntegerField(primary_key=True)
+		name = models.CharField(max_length=255)
+		phone_number = models.CharField(max_length=255)
+		email = models.EmailField()
+		
+		def _str_(self):
+		return self.name
+		
+		class Curso(models.Model):
+		curso_id = models.IntegerField(primary_key=True)
+		name = models.CharField(max_length=255)
+		description = models.TextField()
+		teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+		users = models.ManyToManyField(User, related_name='usuarios')
+		
+		def _str_(self):
+		return self.name
+		
+		class Review(models.Model):
+		comment = models.TextField()
+		user = models.ForeignKey(User, on_delete=models.CASCADE)
+		curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+		
+		def _str_(self):
+		return f'Reseña hecho/a por {self.user.name} hacia el curso {self.curso.name}'
+		
+		class Section(models.Model):
+		section_id = models.IntegerField(primary_key=True)
+		curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+		name = models.CharField(max_length=255)
+		description = models.TextField()
+		video_url = models.URLField(max_length=200)
+		
+		def _str_(self):
+		return self.name
+		
+		class Pdf(models.Model):
+		name = models.CharField(max_length=255)
+		url = models.URLField(max_length=200)
+		section = models.ForeignKey(Section, on_delete=models.CASCADE)
+		
+		def _str_(self):
+		return self.name
+	\end{minted}
+	\item \textbf{Módulo admin}: \\
+	Será necesario registrar los modelos definidos en el proyecto para que puedan ser gestionados a través del panel de administración de Django. Utilizaremos `admin.site.register` para registrar estos modelos, lo que facilitará la gestión y el mantenimiento del sistema al permitirnos administrar y modificar los datos de manera eficiente desde la interfaz de administración de Django.
+	\begin{minted}{python}
+		from django.contrib import admin
+		from .models import *
+		
+		admin.site.register(Teacher)
+		admin.site.register(User)
+		admin.site.register(Curso)
+		admin.site.register(Review)
+		admin.site.register(Section)
+		admin.site.register(Pdf)
+	\end{minted}
+	\item \textbf{Módulo apps}: \\
+	La función de este módulo será configurar la aplicación y proporcionar metadatos sobre ella para que Django la reconozca y gestione correctamente. Para lograr esto, implementaremos una clase `AcademiaConfig` que contendrá las configuraciones específicas de la aplicación. Esta clase incluirá información necesaria para referirse y gestionar la aplicación dentro del entorno de Django, como el nombre de la aplicación y configuraciones adicionales que puedan ser requeridas, como configuraciones de permisos o configuraciones de visualización en el panel de administración.
+	\begin{minted}{python}
+		from django.apps import AppConfig
+		
+		class AcademiaConfig(AppConfig):
+		default_auto_field = 'django.db.models.BigAutoField'
+		name = 'academia'	
+	\end{minted}
+	\item \textbf{Módulo serializers}: \\
+	Para emplear Django REST Framework, es necesario definir este módulo. Los serializadores en DRF se encargan de convertir objetos de Django en formatos de datos manipulables, como JSON. Esto es crucial para aplicaciones web donde la transferencia eficiente de datos entre el frontend y el backend es fundamental. Implementaremos un serializador para cada modelo necesario, cada uno recopilando la información del modelo correspondiente. Además, utilizaremos la clase `Meta` en cada serializador para especificar el modelo y los campos que se deben serializar. Esto asegura que los datos sean presentados de manera coherente y eficiente para su manipulación en la aplicación.
+	\begin{minted}{python}
+		from rest_framework import serializers
+		from .models import *
+		
+		class TeacherSerializer(serializers.ModelSerializer):
+		class Meta:
+		model = Teacher
+		fields = ['teacher_id', 'name', 'phone_number', 'email']
+		
+		class UserSerializer(serializers.ModelSerializer):
+		class Meta:
+		model = User
+		fields = ['user_id', 'name', 'phone_number', 'email']
+		
+		class CursoSerializer(serializers.ModelSerializer):
+		class Meta:
+		model = Curso
+		fields = ['curso_id', 'name', 'description', 'teacher', 'users']
+		
+		class ReviewSerializer(serializers.ModelSerializer):
+		class Meta:
+		model = Review
+		fields = ['comment', 'user', 'curso']
+		
+		class SectionSerializer(serializers.ModelSerializer):
+		class Meta:
+		model = Section
+		fields = ['section_id', 'curso', 'name', 'description', 'video_url']
+		
+		class PdfSerializer(serializers.ModelSerializer):
+		class Meta:
+		model = Pdf
+		fields = ['name', 'url', 'section']	
+	\end{minted}
+	\item \textbf{Módulo urls}: \\
+	Para emplear Django REST Framework y configurar las URLs de la API, utilizaremos el enrutador `DefaultRouter`. Este enrutador nos permite gestionar las rutas de la API basadas en las vistas `ViewSet` de manera automática. Aquí está cómo lo haremos:
+	\begin{itemize}
+		\item Crearemos una instancia de `DefaultRouter`.
+		\item Registraremos cada `ViewSet` en el enrutador para que genere automáticamente las rutas correspondientes.
+	\end{itemize}
+	Esto simplifica significativamente el proceso de definición y mantenimiento de las rutas de la API dentro de nuestra aplicación, asegurando que las URL se gestionen de manera coherente y eficiente.
+	\begin{minted}{python}
+		from rest_framework import routers
+		from .views import *
+		
+		router = routers.DefaultRouter()
+		
+		router.register('api/user', UserViewSet, 'user')
+		router.register('api/teacher', TeacherViewSet, 'teacher')
+		router.register('api/curso', CursoViewSet, 'curso')
+		router.register('api/review', ReviewViewSet, 'review')
+		router.register('api/section', SectionViewSet, 'section')
+		router.register('api/pdf', PdfViewSet, 'pdf')
+		
+		urlpatterns = router.urls	
+	\end{minted}
+	\item \textbf{Módulo views}: \\
+	Para emplear Django REST Framework y gestionar las operaciones CRUD en los modelos de la base de datos, utilizaremos un conjunto de vistas (`ViewSet`). Cada `ViewSet` estará encargado de manejar las solicitudes HTTP, interactuar con la base de datos y presentar los datos correspondientes. Aquí está cómo lo haremos:
+	
+	\begin{itemize}
+		\item \textbf{Definición del ViewSet} \\
+		Crearemos un ViewSet para cada modelo que necesitemos manejar. Este ViewSet contendrá métodos para realizar operaciones CRUD (Create, Retrieve, Update, Delete).
+		\item \textbf{Uso del serializador}\\
+		Indicaremos y utilizaremos el serializador correspondiente para cada instancia del modelo dentro del ViewSet. El serializador se encargará de convertir los objetos de Django en formato de datos manipulable, como JSON, para las respuestas de la API.
+		\item \textbf{Autenticacion y permisos} \\
+		Configuraremos el ViewSet para que no requiera autenticación ni permisos especiales para acceder a las operaciones CRUD. Esto se hace configurando adecuadamente las clases de autenticación y permisos en la vista.	
+	\end{itemize}
+	Este enfoque nos permite manejar de manera eficiente las operaciones sobre los modelos de la base de datos a través de una API RESTful, asegurando que los datos sean presentados y manipulados de manera segura y coherente.
+	\begin{minted}{python}
+		from django.shortcuts import render
+		from rest_framework import viewsets, permissions
+		from .models import *
+		from .serializers import *
+		
+		class UserViewSet(viewsets.ModelViewSet):
+		queryset = User.objects.all()
+		serializer_class = UserSerializer
+		permission_classes = [permissions.AllowAny]
+		
+		class TeacherViewSet(viewsets.ModelViewSet):
+		queryset = Teacher.objects.all()
+		serializer_class = TeacherSerializer
+		permission_classes = [permissions.AllowAny]
+		
+		class CursoViewSet(viewsets.ModelViewSet):
+		queryset = Curso.objects.all()
+		serializer_class = CursoSerializer
+		permission_classes = [permissions.AllowAny]
+		
+		class ReviewViewSet(viewsets.ModelViewSet):
+		queryset = Review.objects.all()
+		authentication_classes = [permissions.IsAuthenticated]
+		serializer_class = ReviewSerializer
+		
+		class SectionViewSet(viewsets.ModelViewSet):
+		queryset = Section.objects.all()
+		serializer_class = SectionSerializer
+		permission_classes = [permissions.AllowAny]
+		
+		class PdfViewSet(viewsets.ModelViewSet):
+		queryset = Pdf.objects.all()
+		serializer_class = PdfSerializer
+		permission_classes = [permissions.AllowAny]	
+	\end{minted}
+\end{enumerate}
+\subsection*{Módulo Server}
+En nuestro proyecto de Django, será necesario ajustar las configuraciones para definir el comportamiento y la funcionalidad de la aplicación de manera óptima. Esto incluye la configuración de aspectos como la base de datos, la autenticación, las rutas de la API, y otros parámetros importantes que afectan cómo se ejecuta y se comporta la aplicación.
+\begin{enumerate}
+	\item \textbf{Módulo settings}: \\
+	Las configuraciones que establezcamos para el backend son esenciales para definir el comportamiento y la funcionalidad de nuestra aplicación.
+	\begin{itemize}
+		\item Será necesario definir las aplicaciones instaladas para que sean reconocidas por el proyecto. Esto incluye tanto las aplicaciones propias del proyecto como las dependencias externas, como Django REST Framework y sus extensiones.
+		\begin{minted}{python}
+			INSTALLED_APPS = [
+			'media_manager',
+			'academia',
+			'django_extensions',
+			'rest_framework',
+			...
+			]
+		\end{minted}
+		\item La base de datos que utiliza el proyecto de manera predeterminada en Django es SQLite. Esta base de datos es adecuada para el desarrollo y pruebas debido a su configuración simple y su facilidad de uso.
+		\begin{minted}{python}
+			DATABASES = {
+				'default': {
+					'ENGINE': 'django.db.backends.sqlite3',
+					'NAME': BASE_DIR / 'db.sqlite3',
+				}
+			}
+		\end{minted}	
+	\end{itemize}
+	\item \textbf{Modulo urls}: \\ 
+	En este archivo definiremos la configuración de las URLs del proyecto Django. Esto especificará las rutas principales del proyecto y cómo se deben enrutar las solicitudes a las aplicaciones correspondientes. Al organizar las URLs de esta manera, mantenemos la configuración modular y manejable, lo que facilita el mantenimiento y la escalabilidad del proyecto.
+	\begin{minted}{python}
+		urlpatterns = [
+		path('admin/', admin.site.urls),
+		path('media_manager/', include('media_manager.urls')),
+		path('academia/', include('academia.urls')),
+		]
+	\end{minted}
+\end{enumerate}
+\subsection*{Módulo Media-Manager}
+Se desarrollará una aplicación dedicada al manejo de archivos multimedia, con la capacidad de gestionar la subida, almacenamiento y organización de estos archivos hacia la plataforma de Cloudinary. Esta integración asegurará que el proyecto maneje de manera eficiente los recursos multimedia, facilitando la gestión y optimización de los activos multimedia utilizados en la aplicación.
+\begin{enumerate}
+	\item \textbf{Modulo apps}: \\
+	La clase `MediaManagerConfig` definirá la configuración específica de la aplicación, incluyendo cómo se manejan los campos y el nombre de la aplicación. Está diseñada para inicializar y gestionar adecuadamente estos aspectos dentro del entorno de Django.
+	\begin{minted}{python}
+		class MediaManagerConfig(AppConfig):
+		default_auto_field = 'django.db.models.BigAutoField'
+		name = 'media_manager'
+	\end{minted}	
+	\item \textbf{Modulo urls}: \\
+	En este caso, la configuración de URLs apuntará directamente a una vista que ejecutará la función upload-route para manejar la solicitud y devolver la respuesta correspondiente. Aquí te muestro cómo podrías estructurar esto en el archivo urls.py de tu aplicación multimedia:
+	\begin{minted}{python}
+		urlpatterns = [
+		path('upload/', upload_route, name='upload')
+		]
+	\end{minted}
+	\item \textbf{Modulo views}: \\
+	En esta vista de Django estara encargado de manejar la carga de archivos usando Cloudinary. 
+	\begin{itemize}
+		\item Para comenzar con la configuración necesaria en Django para manejar la subida de archivos multimedia y la integración con servicios como Cloudinary, necesitaremos realizar algunas importaciones y configuraciones clave. 
+		\begin{itemize}
+			\item \textbf{from django.http import HttpResponse:} Importa HttpResponse de django.http, que se utiliza para devolver respuestas HTTP desde la vista.
+			\item \textbf{from dotenv import load-dotenv:} Importa load-dotenv de dotenv, que se usa para cargar variables de entorno desde un archivo .env.
+			\item \textbf{load-dotenv():} Llama a la función load-dotenv() para cargar las variables de entorno definidas en un archivo .env. Esto es útil para manejar configuraciones sensibles como claves de API de Cloudinary de manera segura.
+		\end{itemize}
+		\begin{minted}{python}
+			from django.http import HttpResponse
+			
+			from dotenv import load_dotenv
+			load_dotenv()
+		\end{minted}
+		\item Después configuraremos adecuadamente Cloudinary. Para esto, es necesario importar la biblioteca de Cloudinary y especificar que se debe utilizar una conexión segura para todas las operaciones relacionadas con el almacenamiento y gestión de archivos multimedia.
+		\begin{minted}{python}
+			import cloudinary
+			import cloudinary.uploader
+			
+			import json
+			config = cloudinary.config(secure=True)
+		\end{minted}
+		\item Ahora, a través de una funcion llamada `uploadRoute`, nos encargaremos de manejar las solicitudes POST que llegan a la URL definida para la subida de archivos.
+		\begin{itemize}
+			\item Primero verificara si la solicitud es POST
+			\item Luego extraera el archivo enviado en la solicitud POST desde request.FILES esperando los nombres del campo.
+			\item Llamaremos a la funcion uploadFile con el archivo extraido y devuela la respuesta que esta funcion genera.
+			\item Si la solicitud no es POST, devuelve una respuesta HTTP con el mensaje "Only post method allowed".
+		\end{itemize}
+		\begin{minted}{python}
+			def upload_route(request):
+			if request.method == 'POST':
+			file = request.FILES['file']
+			return uploadFile(file)
+			return HttpResponse("Only post method allowed")
+		\end{minted}
+		\item Luego, mediante la función llamada `uploadFile`, se procede a cargar los archivos multimedia utilizando la API de Cloudinary. \\
+		Primero, esta función cargará el archivo `file` a Cloudinary como un recurso automático. Luego, devolverá un diccionario con los datos de la carga. Finalmente, la función responderá con una respuesta HTTP que contiene estos datos de carga serializados en formato JSON.
+		\begin{minted}{python}
+			def uploadFile(file):
+			upload_data = cloudinary.uploader.upload(file, resource_type = "auto")
+			return HttpResponse(json.dumps(upload_data))
+		\end{minted}
+	\end{itemize}			
+\end{enumerate}
