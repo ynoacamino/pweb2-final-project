@@ -1,14 +1,18 @@
 from rest_framework import routers
+from django.urls import path, include
 from .views import *
 
 router = routers.DefaultRouter()
 
-router.register('api/user', UserViewSet, 'user')
-router.register('api/teacher', TeacherViewSet, 'teacher')
-router.register('api/curso', CursoViewSet, 'curso')
-router.register('api/review', ReviewViewSet, 'review')
-router.register('api/section', SectionViewSet, 'section')
-router.register('api/pdf', PdfViewSet, 'pdf')
+router.register(r'user', UserViewSet, 'user')
+router.register(r'curso', CursoViewSet, 'curso')
+router.register(r'review', ReviewViewSet, 'review')
+router.register(r'section', SectionViewSet, 'section')
+router.register(r'pdf', PdfViewSet, 'pdf')
 
-
-urlpatterns = router.urls
+urlpatterns = [
+  path('', include(router.urls)),
+  path('login/', login),
+  path('register/', register),
+  path('protected/', protected),
+]
