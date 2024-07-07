@@ -14,10 +14,25 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import React, { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 import BrandTitle from './BrandTitle';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    signIn('credentials', {
+      email,
+      password,
+      callbackUrl: '/',
+    });
+  };
+
   return (
     <Sheet key={1}>
       <SheetTrigger asChild>
@@ -40,10 +55,10 @@ export default function Login() {
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <div aria-label="button" onClick={() => signIn('google')} className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
+          <div aria-label="button" className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Google
           </div>
-          <div aria-label="button" onClick={() => signIn('github')} className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
+          <div aria-label="button" className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Github
           </div>
           <div className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
@@ -51,17 +66,24 @@ export default function Login() {
           </div>
           <div className="flex flex-col gap-4">
             <span className="w-full text-muted-foreground text-sm">O usa tu correo electronico:</span>
-            <form className="grid gap-4">
+            <form className="grid gap-4" onSubmit={handleLogin}>
               <div>
                 <Label htmlFor="email">Correo electronico</Label>
-                <Input type="email" id="email" />
+                <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div>
                 <Label htmlFor="password">Contraseña</Label>
-                <Input type="password" id="password" />
+                <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
-              <Button type="submit">Registrarse</Button>
+              <Button type="submit">Iniciar Sesion</Button>
             </form>
+            <span className="w-full text-muted-foreground text-sm">
+              Registrate
+              {' '}
+              <Link href="/signup">
+                Aqui
+              </Link>
+            </span>
           </div>
         </div>
       </SheetContent>

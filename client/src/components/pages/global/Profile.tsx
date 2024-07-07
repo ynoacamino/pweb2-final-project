@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -9,7 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import Image from 'next/image';
 import { signOut } from 'next-auth/react';
 import BrandTitle from './BrandTitle';
 
@@ -40,9 +42,8 @@ export default function Profile(
               <span>
                 {`${wordInName[0]} ${wordInName[1]}` || email}
               </span>
-              <Image
+              <img
                 src={image}
-                alt="profile image"
                 width={50}
                 height={50}
                 className="rounded-full ml-6"
