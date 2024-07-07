@@ -36,25 +36,49 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1>Agrega cursos</h1>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <input type="text" name="name" onChange={(e) => setName(e.target.value)} value={name} />
-        <textarea name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files;
+    <div className="flex flex-col items-center gap-6 p-6 bg-gray-100 rounded-lg shadow-lg max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-4 ">Agregar Curso</h1>
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label className="block text-lg font-medium mb-2">Nombre del Curso:</label>
+          <input
+            type="text"
+            placeholder="Ingrese el nombre"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+        </div>
+        <div>
+          <label className="block text-lg font-medium mb-2">Descripción:</label>
+          <textarea
+            placeholder="Ingresar Descripción"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+          />
+        </div>
+        <div>
+          <label className="block text-lg font-medium mb-2">Imagen:</label>
+          <input
+            type="file"
+            accept="image/*"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => {
+              const file = e.target.files;
 
-            if (!file) {
-              return;
-            }
-            setImage(file[0]);
-          }}
-        />
-        <Button type="submit">Agregar</Button>
+              if (!file) {
+                return;
+              }
+              setImage(file[0]);
+            }}
+          />
+        </div>
+        <div>
+          <Button type="submit">
+            Agregar
+          </Button>
+        </div>
       </form>
     </div>
   );
