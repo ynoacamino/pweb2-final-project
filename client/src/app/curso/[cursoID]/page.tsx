@@ -38,11 +38,11 @@ export default async function CursoPage({ params }: { params: { cursoID: string 
         <section className="bg-card rounded-md w-full flex flex-col gap-3 px-8 py-6">
           <h1 className="text-2xl">Profesor</h1>
           <p>
-            ¡Hola! Soy ${data.teacher.name}, y seré tu instructor en este curso. 
+            ¡Hola! Soy {data.teacher.name}, y seré tu instructor en este curso. 
             Estoy aquí para guiarte y apoyarte a lo largo de tu viaje de aprendizaje.
             Puedes contactarme si tienes alguna duda o necesitas asistencia adicional:
-            Teléfono: ${data.teacher.phone_number}
-            Email: ${data.teacher.email}
+            Teléfono: {data.teacher.phone_number}
+            Email: {data.teacher.email}
             Estoy emocionado de empezar este viaje contigo y espero que disfrutes y aprendas
             mucho en este curso.
           </p>
