@@ -6,7 +6,6 @@ bin
 cache
 lib
 pyvenv.cfg
-
 /node_modules
 /.pnp
 .pnp.js

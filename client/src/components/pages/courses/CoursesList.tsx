@@ -7,26 +7,22 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-import { useEffect, useState } from 'react';
+
+import  { useFetch } from '../fetch/useFetch';
 import CourseCard from './CourseCard';
 
 export function CoursesList() {
-  const [cursos, setCursos] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:8000/academia/api/curso/')
-      .then((res) => res.json())
-      .then((data) => setCursos(data));
-  }, []);
+  const { courses } = useFetch('http://localhost:8000/academia/api/curso/')
 
   return (
     <Carousel className="w-full max-w-6xl my-20">
       <CarouselContent>
-        {cursos.map(({ description, name }) => (
-          <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={crypto.randomUUID()}>
+        {courses.map(({ id, description, image_url, name }) => (
+          <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={id}>
             <CourseCard
               description={description}
-              image="https://res.cloudinary.com/dazt6g3o1/image/upload/v1719157975/ecyf3ye0dnn5hbgydsjx.png"
+              image={image_url}
               name={name}
             />
           </CarouselItem>

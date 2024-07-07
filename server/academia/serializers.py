@@ -27,6 +27,7 @@ class PdfSerializer(serializers.ModelSerializer):
   class Meta:
     model = Pdf
     fields = ['name', 'url', 'section', 'created_at', 'updated_at']
+    
 class SectionSerializer(serializers.ModelSerializer):
   reviews = ReviewSerializer(many=True, read_only=True, source='review_set')
   pdfs = PdfSerializer(many=True, read_only=True, source='pdf_set')

@@ -29,7 +29,7 @@ class Curso(models.Model):
   teacher = models.ForeignKey(User, on_delete=models.CASCADE)
   users = models.ManyToManyField(User, related_name='usuarios', blank=True)
   image_url = models.URLField(max_length=200)
-
+  
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 

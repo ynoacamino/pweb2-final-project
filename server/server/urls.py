@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('media_manager/', include('media_manager.urls')),
     path('academia/api/', include('academia.urls')),
-
     # Documentation API
     path('docs/', SpectacularAPIView.as_view(), name='docs'),
     path('docs/swagger-ui/', SpectacularSwaggerView.as_view(url_name='docs'), name='swagger-ui'),
