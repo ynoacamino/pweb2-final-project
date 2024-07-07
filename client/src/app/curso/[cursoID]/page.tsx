@@ -2,16 +2,12 @@ import Description from '@/components/pages/course/Description';
 import RelatedCourses from '@/components/pages/course/RelatedCourses';
 import Sections from '@/components/pages/course/Sections';
 import Title from '@/components/pages/course/Title';
-
-import  { useFetch } from '../../../components/pages/fetch';
-
-const getData = async ({ id }: { id: string }) => {
-  const course = useFetch(`http://localhost:8000/academia/api/curso/${id}`); 
-  return course;
-};
+import { useFetch } from '../../../components/pages/fetch/useFetch';
 
 export default async function CursoPage({ params }: { params: { cursoID: string } }) {
-  const data = await getData({ id: params.cursoID });
+  const { cursoID } = params;
+  const data = await useFetch(`http://localhost:8000/academia/api/curso/${cursoID}`);
+  console.log(data)
 
   return (
     <main className="w-full grid md:grid-cols-3 max-w-6xl mt-14 mb-20 gap-y-10">
