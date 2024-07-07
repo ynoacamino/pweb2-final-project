@@ -7,7 +7,9 @@ coreschema==0.0.4
 Django==5.0.6
 django-cors-headers==4.4.0
 django-extensions==3.2.3
-djangorestframework==3.15.1
+djangorestframework==3.15.2
+djangorestframework-jwt==1.11.0
+djangorestframework-simplejwt==5.3.1
 drf-spectacular==0.27.2
 drf-spectacular-sidecar==2024.7.1
 idna==3.7

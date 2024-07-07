@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'academia',
     'django_extensions',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'drf_spectacular',
     'drf_spectacular_sidecar',
@@ -137,8 +138,15 @@ CORS_ALLOWED_ORIGINS = [
 
 # AutoShema (API documentation)
 REST_FRAMEWORK = {
-  'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+  # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+  # 'DEFAULT_PERMISSION_CLASSES': [
+  #   'rest_framework.permissions.AllowAny',
+  # ],
 }
+
+# desactivar barra al final de la url en django
+APPEND_SLASH = False
+
 
 SPECTACULAR_SETTINGS = {
   'TITLE': 'Learning Academy API',
