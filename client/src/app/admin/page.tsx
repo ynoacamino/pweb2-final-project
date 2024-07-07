@@ -1,25 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useFetch } from '../../components/pages/fetch/useFetch';
 
 export default function PageRead() {
-  const [cursos, setCursos] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/academia/api/curso/')
-      .then((res) => res.json())
-      .then((data) => setCursos(data));
-  }, []);
+  const courses = useFetch('http://localhost:8000/academia/api/curso/');
 
   return (
     <div>
-      <h1>Cursos</h1>
-      <p>Lista de cursos</p>
+      <h1>Sus cursos prof. {courses.teacher.name} </h1>
 
       <div className="flex w-full max-w-6xl gap-8">
 
         {
-        cursos.map((curso: any) => (
+        courses.map((curso: any) => (
           <div key={crypto.randomUUID()} className="bg-card p-4 rounded-md">
             <h2>{curso.name}</h2>
             {/* <h3>{curso.teacher}</h3> */}
