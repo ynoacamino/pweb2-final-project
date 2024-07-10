@@ -47,40 +47,39 @@ export default function EditCourse({ params }: { params: { id: string } }) {
   if (!course) return <p>Loading...</p>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Curso:</h1>
-      <h1 className="text-2xl font-bold mb-4">Editando Sección</h1>
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label className="block text-lg font-medium mb-2">Nombre del Curso:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Ingrese el nombre"
-          />
-        </div>
-        <div>
-          <label className="block text-lg font-medium mb-2">Descripción del Curso:</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Ingresar Descripción"
-          />
-        </div>
-        <div className="flex w-full p-2">
-          <div className="min-w-96 mx-auto p-3 rounded-md flex justify-center gap-4">
-            <Button className="font-bold text-xs p-2 md:text-lg md:p-6 bg-blue-500 text-white rounded hover:bg-blue-600" type="submit">
-              Guardar Cambios
-            </Button>
-            <Button className="font-bold text-xs p-2 md:text-lg md:p-6 bg-gray-500 text-white rounded hover:bg-gray-600">
-              Cancelar
-            </Button>
-          </div>
-        </div>
-      </form>
+    <div className="flex flex-row w-full ">
+      <div className='bg-primary flex h- w-6/12 justify-center items-center flex-col'>
+      <input
+        className='mx-auto border-2 text-sm'
+        type="file"
+        name="image"
+        accept="image/*"  
+        onChange={(e) => {
+          const file = e.target.files;
+          if (!file) {
+            return;
+          }
+          setImage(file[0]);
+        }}/>
+      </div>
+
+      <div className="flex h-screen w-6/12 justify-center items-center flex-col ">
+        <form action="" className="flex flex-col">
+            <div className="flex flex-col mt-8 w-full md:w-auto md:absolute md:right-11 md:top-20 items-center text-center justify-center">
+              <h2 className="text-2xl md:text-3xl md:w-[637px] text-primary">Bienvenidos</h2>
+              <h2 className="text-xl md:text-2xl mt-2 md:w-[637px]">Modificar Curso</h2>
+            </div>
+            <div className="flex flex-col mt-8 w-full md:w-auto md:absolute md:right-11 md:top-40">
+              <label htmlFor="name" className="my-4 font-bold text-lg">Nombre:</label>
+              <textarea id="name" className="p-2 text-xs rounded-sm h-28 w-full md:w-[637px]" name="name" onChange={(e) => setName(e.target.value)} value={name} />
+            </div>
+            <div className=" flex flex-col mt-8 w-full md:w-auto md:absolute md:right-11 md:top-[calc(50%_+_-109px_+_87px)]">
+              <label htmlFor="description" className="my-4 font-bold text-lg">Descripción:</label>
+              <textarea id="description" className="p-2 text-xs rounded-sm h-28 w-full md:w-[637px]" name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
+            </div>
+            <Button className="mt-8 md:absolute md:bottom-[75px] md:right-56 h-16 w-80" type="submit">Modificar</Button>
+        </form>
+      </div>
     </div>
   );
 }
