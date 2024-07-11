@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { useRouter} from 'next/navigation';
 import { useState, useEffect } from 'react';
+import Upload from "@/components/icons/complements/Upload";
+import Back from "@/components/icons/complements/Back";
 
 export default function PageAdd(){
     const [name, setName] = useState('');
@@ -20,6 +22,10 @@ export default function PageAdd(){
         };
         }
     }, [video]);
+    const handleDelete = () => {
+      setVideo(null);
+      setPreview(null);
+    }
 
     const router = useRouter();
 
@@ -48,47 +54,52 @@ export default function PageAdd(){
     };
 
     return (
-        <div className="flex flex-col gap-4 my-8">
-          <div className='bg-card p-10'>
-            <Button
-              className='bg-primary text-sm font-bold px-2'
-              onClick={() => {router.push('./read')}}>
-              &lt; Atras
-            </Button>   
-            <h1 className='w-full flex flex-col items-center justify-center font-bold my-8 space-y-2'>  
-              <span className='text-3xl text-primary'> ¡ Bienvenido ! </span> 
-              <span className='text-2xl text-primary'> Al curso -  </span> {/* propiedad curso */}
-              <span className='text-1xl'> Agrega la Seccion </span>
-            </h1>
-            <form className="flex flex-col space-y-2" onSubmit={handleSubmit}>
-              <label className='font-bold p-3'> Nombre: </label>
-              <input className='p-2 text-xs mx-4 rounded-sm' type="text" name="name" onChange={(e) => setName(e.target.value)} value={name} />
-              <label className='font-bold p-3'> Descripcion: </label>
-              <textarea className='p-2 text-xs mx-4 rounded-sm h-28' name="description" onChange={(e) => setDescription(e.target.value)} value={description} />
+      <div className="flex w-full md:px-60 md:py-20 px-6 my-10 md:my-2">
+      <form action="POST" className="flex w-full md:flex-row flex-col" onSubmit={handleSubmit}>
+        <a href="./" className='absolute justify-start mb-4'> <Back/> </a>
+          <div className='flex md:h-screen justify-center items-center flex-col w-full md:w-7/12 space-y-4 '>
+            <p className='md:text-4xl text-3xl font-bold text-primary'> ¡Bienvenido! </p>
+            <p className='md:text-3xl text-base font-bold '> Agrega la Seccion </p>
+            <div className='flex flex-col w-full items-center justify-center space-y-2 p-4'>
+                <label className='text-primary font-bold md:text-xl text-base md:my-4 my-2'> Nombre: </label>
+                <input placeholder='Ingrese el nombre... ' className='md:text-base md:w-96 w-5/6 p-2 text-sm rounded-md bg-card shadow-lg' type="text" onChange={(e) => setName(e.target.value)} value={name}/>
+            </div>
+            <div className='flex flex-col w-full items-center justify-center space-y-2 p-4'>
+                <label className='text-primary font-bold md:text-xl text-base md:my-4 my-2'> Descripcion: </label>
+                <textarea placeholder='Ingrese la descripcion... ' className='md:text-sm text-xs md:w-96 w-5/6 p-4 rounded-md bg-card shadow-lg h-32' onChange={(e) => setDescription(e.target.value)} value={description}/>
+            </div>
+            <div className='flex justify-center mx-auto my-5'>
+              <Button onChange={handleDelete} className='md:p-6 p-2 font-bold md:text-base text-xs my-4'> Guardar Seccion </Button>
+            </div>
+          </div>
+          <div className='flex bg-primary w-full h-72 md:h-screen md:w-5/12 justify-center items-center flex-col'>
+            <div className="flex md:h-2/5 md:w-3/5 h-3/5 w-3/5 bg-card md:my-4 my-2 rounded-md">
               {preview && (
-                <div className='w-full flex items-center justify-center py-6'>
-                  <video src={preview} className="max-w-64 mx-auto" controls />
+                <div className='relative'>
+                  <video src={preview} className="object-contain p-8 mx-auto w-full h-4/5 rounded-md" controls />
+                  <Button onClick={handleDelete} className='md:text-sm text-xs md:left-6 left-2 absolute bottom-1 md:bottom-4 bg-red-600 hover:bg-red-400 px-1 md:py-2 md:px-4 rounded-md shadow-md'> Eliminar Video </Button>
                 </div>
               )}
-              <div className='w-full flex items-center justify-center p-4'>
+            </div>
+            <span className='my-6'>
+            <label className="cursor-pointer md:text-base text-xs font-bold bg-card md:p-4 p-2 rounded-md flex items-center">
+                <Upload />  Subir Video
                 <input
-                  className='mx-auto border-2 text-sm'
-                  type="file"
-                  name="image"
-                  accept="image/*, video/*"  
-                  onChange={(e) => {
-                    const file = e.target.files;
-                    if (!file) {
-                      return;
-                    }
-                    setVideo(file[0]);
+                style={{display:'none'}}
+                type="file"
+                name="image"
+                accept="image/*, video/*" 
+                onChange={(e) => {
+                  const file = e.target.files;
+                  if (!file) {
+                    return;
+                  }
+                  setVideo(file[0]);
                 }}/>
-              </div>
-              <div className='w-full flex items-center justify-center p-6'>
-                <Button className='mx-auto font-bold' type="submit"> Agregar </Button>
-              </div>
-            </form>
+              </label>
+            </span>
           </div>
-        </div>
+        </form>
+      </div>
     );
 }
