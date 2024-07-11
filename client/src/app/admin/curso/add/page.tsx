@@ -91,6 +91,7 @@ export default async function Page() {
                 style={{display:'none'}}
                 type="file"
                 name="image"
+                accept="image/*"
                 onChange={(e) => {
                   const file = e.target.files;
                   if (!file) {
