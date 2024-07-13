@@ -10,6 +10,7 @@ export default function PageAdd(){
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [video, setVideo] = useState<File | null>(null);
+
     const [preview, setPreview] = useState<string | null>(null);
 
     useEffect(() => {

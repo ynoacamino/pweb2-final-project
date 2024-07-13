@@ -36,4 +36,4 @@ export async function POST(req: Request) {
     });
 
   return Response.json({ res: 'Curso agregado' }, { status: 200 });
-}
+  }
