@@ -1,16 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useFetch } from '../../components/pages/fetch/useFetch';
 import { Button } from '@/components/ui/button';
-
 export default function PageRead() {
-  const [cursos, setCursos] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/academia/api/curso/')
-      .then((res) => res.json())
-      .then((data) => setCursos(data));
-  }, []);
+  const courses = useFetch('http://localhost:8000/academia/api/curso/');
 
   return (
     <div className="w-full p-16">

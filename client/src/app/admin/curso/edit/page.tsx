@@ -58,7 +58,6 @@ export default function EditCourse({ params }: { params: { id: string } }) {
       })
       .catch((err) => console.error(err));
   };
-
   //if (!course) return <p>Loading...</p>;
 
   return (
@@ -96,6 +95,7 @@ export default function EditCourse({ params }: { params: { id: string } }) {
               <Button className='font-bold p-6'> Realizar Cambios </Button>
             </div>
         </form>
+
     </div>
   );
 }
