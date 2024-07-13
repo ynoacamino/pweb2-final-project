@@ -8,6 +8,21 @@ export default function EditCourse({ params }: { params: { id: string } }) {
   const [course, setCourse] = useState<any>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  
+  const [image, setImage] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (image) {
+      const objectURL = URL.createObjectURL(image);
+      setPreview(objectURL);
+
+      return () => {
+        URL.revokeObjectURL(objectURL);
+      };
+    }
+  }, [image]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -43,44 +58,44 @@ export default function EditCourse({ params }: { params: { id: string } }) {
       })
       .catch((err) => console.error(err));
   };
-
-  if (!course) return <p>Loading...</p>;
+  //if (!course) return <p>Loading...</p>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Curso:</h1>
-      <h1 className="text-2xl font-bold mb-4">Editando Sección</h1>
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label className="block text-lg font-medium mb-2">Nombre del Curso:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Ingrese el nombre"
-          />
-        </div>
-        <div>
-          <label className="block text-lg font-medium mb-2">Descripción del Curso:</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            placeholder="Ingresar Descripción"
-          />
-        </div>
-        <div className="flex w-full p-2">
-          <div className="min-w-96 mx-auto p-3 rounded-md flex justify-center gap-4">
-            <Button className="font-bold text-xs p-2 md:text-lg md:p-6 bg-blue-500 text-white rounded hover:bg-blue-600" type="submit">
-              Guardar Cambios
-            </Button>
-            <Button className="font-bold text-xs p-2 md:text-lg md:p-6 bg-gray-500 text-white rounded hover:bg-gray-600">
-              Cancelar
-            </Button>
-          </div>
-        </div>
-      </form>
+    <div className="flex flex-row w-full p-40">
+        <form action="" className="flex w-full " onSubmit={handleSubmit}>
+            <div className='flex bg-primary h-screen w-5/12 justify-center items-center flex-col '>
+                  <div className='flex border-2 h-2/5 w-3/5 bg-card my-8 rounded-md'>
+                    {preview && (
+                      <img src={preview} alt="Preview" className="p-8 mx-auto"/>
+                    )}
+                  </div>
+              <input
+                className='border-2 border-black'
+                type="file"
+                name="image"
+                onChange={(e) => {
+                  const file = e.target.files;
+                  if (!file) {
+                    return;
+                  }
+                  setImage(file[0]);
+                }}/>
+            </div>
+            <div className='flex h-screen justify-center items-center flex-col w-7/12 space-y-4 '>
+              <p className='text-4xl font-bold text-primary'> ¡Bienvenido! </p>
+              <p className='text-3xl font-bold '> Realiza los cambios </p>
+             <div className='flex flex-col w-full items-center justify-center my-4 space-y-2 p-4'>
+                <label className='text-primary font-bold text-xl  my-4'> Nombre: </label>
+                <input placeholder='Ingrese el nombre... ' className='w-96 p-2 rounded-md bg-card shadow-lg' type="text" onChange={(e) => setName(e.target.value)} value={name}/>
+             </div>
+             <div className='flex flex-col w-full items-center justify-center my-4 space-y-2 p-4'>
+                <label className='text-primary font-bold text-xl my-4' htmlFor=""> Descripcion: </label>
+                <textarea placeholder='Ingrese la descripcion... ' className='text-xs w-96 p-4 rounded-md bg-card shadow-lg h-32' onChange={(e) => setDescription(e.target.value)} value={description}/>
+             </div>
+              <Button className='font-bold p-6'> Realizar Cambios </Button>
+            </div>
+        </form>
+
     </div>
   );
 }
