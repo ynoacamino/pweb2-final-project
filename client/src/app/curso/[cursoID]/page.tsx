@@ -2,6 +2,7 @@ import Description from '@/components/pages/course/Description';
 import RelatedCourses from '@/components/pages/course/RelatedCourses';
 import Sections from '@/components/pages/course/Sections';
 import Title from '@/components/pages/course/Title';
+
 import { useFetch } from '../../../components/pages/fetch/useFetch';
 
 export default async function CursoPage({ params }: { params: { cursoID: string } }) {
@@ -39,6 +40,7 @@ export default async function CursoPage({ params }: { params: { cursoID: string 
             Puedes contactarme si tienes alguna duda o necesitas asistencia adicional:
             Teléfono: {data.teacher.phone_number}
             Email: {data.teacher.email}
+
             Estoy emocionado de empezar este viaje contigo y espero que disfrutes y aprendas
             mucho en este curso.
           </p>

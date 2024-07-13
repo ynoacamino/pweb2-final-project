@@ -12,9 +12,8 @@ import  { useFetch } from '../fetch/useFetch';
 import CourseCard from './CourseCard';
 
 export function CoursesList() {
-
   const { courses } = useFetch('http://localhost:8000/academia/api/curso/')
-
+  
   return (
     <Carousel className="w-full max-w-6xl my-20">
       <CarouselContent>
