@@ -12,7 +12,6 @@ import  { useFetch } from '../fetch/useFetch';
 import CourseCard from './CourseCard';
 
 export function CoursesList() {
-
   const { courses } = useFetch('http://localhost:8000/academia/api/curso/')
   
   return (

@@ -3,15 +3,12 @@ import RelatedCourses from '@/components/pages/course/RelatedCourses';
 import Sections from '@/components/pages/course/Sections';
 import Title from '@/components/pages/course/Title';
 
-import  { useFetch } from '../../../components/pages/fetch';
-
-const getData = async ({ id }: { id: string }) => {
-  const course = useFetch(`http://localhost:8000/academia/api/curso/${id}`); 
-  return course;
-};
+import { useFetch } from '../../../components/pages/fetch/useFetch';
 
 export default async function CursoPage({ params }: { params: { cursoID: string } }) {
-  const data = await getData({ id: params.cursoID });
+  const { cursoID } = params;
+  const data = await useFetch(`http://localhost:8000/academia/api/curso/${cursoID}`);
+  console.log(data)
 
   return (
     <main className="w-full grid md:grid-cols-3 max-w-6xl mt-14 mb-20 gap-y-10">
@@ -38,11 +35,12 @@ export default async function CursoPage({ params }: { params: { cursoID: string 
         <section className="bg-card rounded-md w-full flex flex-col gap-3 px-8 py-6">
           <h1 className="text-2xl">Profesor</h1>
           <p>
-            ¡Hola! Soy ${data.teacher.name}, y seré tu instructor en este curso. 
+            ¡Hola! Soy {data.teacher.name}, y seré tu instructor en este curso. 
             Estoy aquí para guiarte y apoyarte a lo largo de tu viaje de aprendizaje.
             Puedes contactarme si tienes alguna duda o necesitas asistencia adicional:
-            Teléfono: ${data.teacher.phone_number}
-            Email: ${data.teacher.email}
+            Teléfono: {data.teacher.phone_number}
+            Email: {data.teacher.email}
+
             Estoy emocionado de empezar este viaje contigo y espero que disfrutes y aprendas
             mucho en este curso.
           </p>
