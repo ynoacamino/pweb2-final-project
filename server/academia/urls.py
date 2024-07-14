@@ -14,5 +14,5 @@ urlpatterns = [
   path('', include(router.urls)),
   path('login/', login),
   path('register/', register),
-  path('protected/', protected),
+  path('getUser/', getUser),
 ]

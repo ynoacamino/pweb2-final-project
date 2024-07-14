@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 
 export default function Info() {
   return (
     <section className="w-full max-w-6xl flex flex-col gap-10 my-20 shadow-lg">
       <article className="w-full rounded-md bg-card p-8 flex gap-10 flex-col lg:flex-row items-center">
-        <Image
+        <img
           src="https://res.cloudinary.com/dazt6g3o1/image/upload/v1719160177/jbarsqhcz83x8mp4l27a.png"
           alt="Certificaciones"
           width={400}

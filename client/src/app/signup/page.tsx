@@ -1,14 +1,13 @@
 'use client';
 
+import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { signIn } from 'next-auth/react';
 import { FormEventHandler } from 'react';
 
 export default function SignUp() {
-  const { toast } = useToast();
+  const auth = useAuth();
 
   const handleSignUp:FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -20,37 +19,16 @@ export default function SignUp() {
       phone_number: formData.get('phone_number'),
       email: formData.get('email'),
       password: formData.get('password'),
+      image_url: `https://api.dicebear.com/7.x/pixel-art/svg?seed=$${formData.get('email')}`,
     };
 
-    fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        if (res.error) {
-          throw new Error(res.error);
-        } else {
-          signIn('credentials', {
-            email: res.user.email,
-            password: res.user.password,
-            callbackUrl: '/',
-            redirect: false,
-          });
-        }
-      })
-      .catch(() => {
-        // toast.error('Error al registrarse');
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'Error al registrarse',
-        });
-      });
+    auth.register({
+      email: data.email as string,
+      password: data.password as string,
+      name: data.name as string,
+      phone_number: data.phone_number as string,
+      image_url: data.image_url as string,
+    });
   };
 
   return (

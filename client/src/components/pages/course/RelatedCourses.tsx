@@ -9,6 +9,7 @@ export default function RelatedCourses() {
       <div className="flex flex-wrap justify-around items-center gap-y-10">
         {Array.from({ length: 3 }).map(() => (
           <CourseCard
+            curso_id="1"
             key={crypto.randomUUID()}
             name="Curso de React"
             description="Aprende React desde cero"

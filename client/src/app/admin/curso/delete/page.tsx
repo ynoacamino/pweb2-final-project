@@ -12,8 +12,8 @@ export default function PageRead() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (confirm('¿Estás seguro de que deseas eliminar este curso?')) {
-      fetch(`http://localhost:8000/academia/api/curso/?1`, {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este curso?')) {
+      fetch('http://localhost:8000/academia/api/curso/?1', {
         method: 'DELETE',
       })
         .then((res) => {
@@ -41,6 +41,7 @@ export default function PageRead() {
               <button
                 onClick={() => handleDelete(curso.id)}
                 className="bg-yellow-500 text-white hover:bg-yellow-600"
+                type="button"
               >
                 Eliminar
               </button>

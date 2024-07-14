@@ -15,22 +15,20 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useAuth } from '@/components/providers/AuthProvider';
 import BrandTitle from './BrandTitle';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const auth = useAuth();
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    signIn('credentials', {
-      email,
-      password,
-      callbackUrl: '/',
-    });
+    auth.login({ password, email });
   };
 
   return (
@@ -46,9 +44,9 @@ export default function Login() {
             <BrandTitle />
           </SheetTitle>
           <SheetTitle>
-            <h2 className="text-3xl font-bold">
+            <span className="text-3xl font-bold">
               Registrate
-            </h2>
+            </span>
           </SheetTitle>
           <SheetDescription>
             Ingresar o crear una cuenta con:

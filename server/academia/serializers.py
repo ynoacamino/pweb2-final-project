@@ -4,19 +4,25 @@ from .models import *
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ('user_id', 'name', 'phone_number', 'email', 'image_url', 'role', 'created_at', 'updated_at')
+    fields = ('user_id', 'name', 'phone_number', 'email', 'image_url', 'role', 'created_at', 'updated_at', 'password')
+
+class UserSerializerWithOutAuth(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ('user_id', 'name', 'email', 'image_url', 'created_at', 'updated_at')
+
 
 class SectionSerializerWhithOutAuth(serializers.ModelSerializer):
   class Meta:
     model = Section
-    fields = ['section_id', 'curso', 'name']
+    fields = ['section_id', 'curso', 'name', 'description']
 
 class CursoSerializer(serializers.ModelSerializer):
-  teacher = UserSerializer()
+  teacher = UserSerializerWithOutAuth()
   sections = SectionSerializerWhithOutAuth(many=True, read_only=True, source='section_set')
   class Meta:
     model = Curso
-    fields = ['curso_id', 'name', 'description', 'teacher', 'created_at', 'updated_at', 'sections']
+    fields = ['curso_id', 'name', 'description', 'teacher', 'created_at', 'updated_at', 'sections', 'image_url']
 
 class ReviewSerializer(serializers.ModelSerializer):
   class Meta:
@@ -29,6 +35,7 @@ class PdfSerializer(serializers.ModelSerializer):
     fields = ['name', 'url', 'section', 'created_at', 'updated_at']
     
 class SectionSerializer(serializers.ModelSerializer):
+  # curso = CursoSerializer()
   reviews = ReviewSerializer(many=True, read_only=True, source='review_set')
   pdfs = PdfSerializer(many=True, read_only=True, source='pdf_set')
   class Meta:
