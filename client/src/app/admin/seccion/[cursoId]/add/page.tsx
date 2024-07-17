@@ -83,7 +83,7 @@ export default function PageAdd({ params }: { params: { cursoId: string } }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.section_id) {
-          router.push('/');
+          router.back()
         }
       })
       .catch((err) => console.error(err));

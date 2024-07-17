@@ -78,7 +78,7 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
       .then((res) => res.json())
       .then((data) => {
         if (data.section_id) {
-          router.push('/');
+          router.back();
         }
       })
       .catch((err) => console.error(err));

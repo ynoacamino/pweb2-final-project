@@ -31,7 +31,7 @@ export default function PageRead({ params }: { params: { cursoId: string } }) {
         </div>
         <div className="flex justify-end">
           <Button className="mt-2 px-4 py-2 rounded">
-            <a href="../curso/add">Agregar Sección</a>
+            <a href="/admin/seccion/1/add">Agregar Sección</a>
           </Button>
         </div>
       </div>
