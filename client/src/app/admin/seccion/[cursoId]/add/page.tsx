@@ -117,11 +117,22 @@ export default function PageAdd({ params }: { params: { cursoId: string } }) {
           <p className="md:text-3xl text-base font-bold "> Agrega la Seccion </p>
           <div className="flex flex-col w-full items-center justify-center space-y-2 p-4">
             <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> Nombre: </label>
-            <input placeholder="Ingrese el nombre... " className="md:text-base md:w-96 w-5/6 p-2 text-sm rounded-md bg-card shadow-lg" type="text" onChange={(e) => setName(e.target.value)} value={name} />
+            <input 
+              placeholder="Ingrese el nombre... " 
+              className="md:text-base md:w-96 w-5/6 p-2 text-sm rounded-md bg-card shadow-lg" 
+              type="text" 
+              onChange={(e) => setName(e.target.value)} 
+              value={name} 
+              />
           </div>
           <div className="flex flex-col w-full items-center justify-center space-y-2 p-4">
             <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> Descripcion: </label>
-            <textarea placeholder="Ingrese la descripcion... " className="md:text-sm text-xs md:w-96 w-5/6 p-4 rounded-md bg-card shadow-lg h-32" onChange={(e) => setDescription(e.target.value)} value={description} />
+            <textarea 
+              placeholder="Ingrese la descripcion... " 
+              className="md:text-sm text-xs md:w-96 w-5/6 p-4 rounded-md bg-card shadow-lg h-32" 
+              onChange={(e) => setDescription(e.target.value)} 
+              value={description} 
+            />
           </div>  
             <div className="flex flex-col w-full items-center justify-center space-y-2 p-4 ">
               <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> PDF's: </label>
@@ -155,7 +166,12 @@ export default function PageAdd({ params }: { params: { cursoId: string } }) {
                 <video src={preview} className="object-contain p-8 mx-auto w-full h-4/5 rounded-md" controls>
                   <track kind="captions" src="captions.vtt" label="English" />
                 </video>
-                <Button onClick={handleDelete} className="md:text-sm text-xs md:left-6 left-2 absolute bottom-1 md:bottom-4 bg-red-600 hover:bg-red-400 px-1 md:py-2 md:px-4 rounded-md shadow-md"> Eliminar Video </Button>
+                <Button 
+                  onClick={handleDelete} 
+                className="md:text-sm text-xs md:left-6 left-2 absolute bottom-1 md:bottom-4 bg-red-600 hover:bg-red-400 px-1 md:py-2 md:px-4 rounded-md shadow-md"
+                > 
+                  Eliminar Video 
+                </Button>
               </div>
             )}
           </div>

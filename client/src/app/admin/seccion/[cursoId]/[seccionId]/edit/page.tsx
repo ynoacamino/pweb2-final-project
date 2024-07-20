@@ -5,6 +5,10 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Back from '@/components/icons/complements/Back';
+import PdfAdd from '@/components/icons/complements/PdfAdd';
+import PdfCreate from '@/components/icons/complements/PdfCreate';
+import PdfEliminated from '@/components/icons/complements/PdfEliminated';
 
 export default function PageEdit({ params }: { params: { cursoId: string; seccionId: string } }) {
   const [name, setName] = useState('');
@@ -14,6 +18,8 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
   const [urlVideo, setUrlVideo] = useState<{ url: string, loading: boolean }>({ url: '', loading: false });
 
   const router = useRouter();
+
+  const [pdfs, setPdfs] = useState<File[]>([]);
 
   const auth = useAuth();
 
@@ -84,23 +90,74 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
       .catch((err) => console.error(err));
   };
 
+  const handleAddPdf = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setPdfs([...pdfs, ...Array.from(event.target.files)]);
+    }
+  };
+
+  const handleRemovePdf = (index: number) => {
+    setPdfs(pdfs.filter((_, i) => i !== index));
+  };
+
   // auth.isTeacher();
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Curso:</h1>
-      <h1 className="text-2xl font-bold mb-4">Editando Sección</h1>
-      <form onSubmit={handleSubmit} method="POST" className="space-y-4">
-        <div>
-          <label className="block text-lg font-medium mb-2">Nombre de la Sección:</label>
-          <input
-            type="text"
-            placeholder="Ingrese el nombre"
-            className="w-full p-2 border rounded"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <div className="flex w-full md:px-60 md:py-20 px-6 my-10 md:my-2">
+      <form onSubmit={handleSubmit} method="POST" className="flex w-full md:flex-row flex-col">
+        <a href="../" className="absolute justify-start mb-4">
+          {' '}
+          <Back />
+          {' '}
+        </a>
+        <div className="flex md:h-screen justify-center items-center flex-col w-full md:w-7/12 space-y-4 ">
+          <p className="md:text-4xl text-3xl font-bold text-primary"> ¡Bienvenido! </p>
+          <p className="md:text-3xl text-base font-bold "> Modificar la Seccion </p>
+          <div className="flex flex-col w-full items-center justify-center space-y-2 p-4">
+            <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> Nombre: </label>
+            <input
+              type="text"
+              placeholder="Ingrese el nombre"
+              className="md:text-base md:w-96 w-5/6 p-2 text-sm rounded-md bg-card shadow-lg"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col w-full items-center justify-center space-y-2 p-4">
+            <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> Descripcion: </label>
+            <textarea
+              placeholder="Ingresar Descripción"
+              className="md:text-sm text-xs md:w-96 w-5/6 p-4 rounded-md bg-card shadow-lg h-32"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col w-full items-center justify-center space-y-2 p-4 ">
+              <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> PDF's: </label>
+              <div className="flex flex-wrap gap-4 mt-4">
+                {pdfs.map((pdf, index) => (
+                <div key={index} className="relative flex items-center justify-center w-24 h-24 p-2 bg-white rounded-lg mx-auto">
+                  <div className="text-red-600 w-full h-full">
+                    <PdfCreate />
+                  </div>
+                  <button
+                    onClick={() => handleRemovePdf(index)}
+                    className="absolute top-0 right-0 p-1 mr-1 mt-1 bg-red-500 rounded-full text-white">
+                    <PdfEliminated /> 
+                  </button>
+                </div>
+                ))}
+                <label className="flex items-center justify-center w-24 h-24 p-2 bg-primary rounded-lg cursor-pointer mx-auto">
+                  <PdfAdd />
+                  <input type="file" accept="application/pdf" onChange={handleAddPdf} className="hidden" />
+                </label>
+              </div>
+          </div>
+          <div className="flex justify-center mx-auto my-5">
+            <Button disabled={urlVideo.loading} type="submit" className="md:p-6 p-2 font-bold md:text-base text-xs my-4"> Realizar Cambios </Button>
+          </div>
         </div>
+
         <div className="flex w-full h-72 md:h-screen md:w-5/12 justify-center items-center flex-col">
           <div className="flex md:h-2/5 md:w-3/5 h-3/5 w-3/5 bg-card md:my-4 my-2 rounded-md">
             {urlVideo.url && (
@@ -115,7 +172,6 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
                   }}
                   className="md:text-sm text-xs md:left-6 left-2 absolute bottom-1 md:bottom-4 bg-red-600 hover:bg-red-400 px-1 md:py-2 md:px-4 rounded-md shadow-md"
                 >
-                  {' '}
                   Eliminar Video
                 </Button>
               </div>
@@ -141,25 +197,6 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
               />
             </label>
           </span>
-        </div>
-        <div>
-          <label className="block text-lg font-medium mb-2">Ingrese la Descripción:</label>
-          <textarea
-            placeholder="Ingresar Descripción"
-            className="w-full p-2 border rounded"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div className="flex w-full p-2">
-          <div className="min-w-96 mx-auto p-3 rounded-md">
-            <Button type="submit" className="font-bold mx-8 text-xs p-2 md:text-lg md:p-6">
-              Realizar cambios
-            </Button>
-            <Button className="font-bold mx-8 text-xs p-2 md:text-lg md:p-6 ">
-              Cancelar
-            </Button>
-          </div>
         </div>
       </form>
     </div>
