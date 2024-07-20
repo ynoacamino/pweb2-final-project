@@ -12,7 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { signOut } from 'next-auth/react';
+import { useAuth } from '@/components/providers/AuthProvider';
 import BrandTitle from './BrandTitle';
 
 export default function Profile(
@@ -20,6 +20,8 @@ export default function Profile(
   { name: string, image: string, email: string },
 ) {
   const wordInName = name?.split(' ');
+
+  const { logout } = useAuth();
 
   return (
     <Sheet key={crypto.randomUUID()}>
@@ -34,13 +36,13 @@ export default function Profile(
             <BrandTitle />
           </SheetTitle>
           <SheetTitle>
-            <h2 className="text-3xl font-bold flex items-center">
+            <span className="text-3xl font-bold flex items-center ml-2">
               <span className="text-primary">
                 Hi,
                 {' '}
               </span>
-              <span>
-                {`${wordInName[0]} ${wordInName[1]}` || email}
+              <span className="ml-2">
+                {` ${wordInName[0]} ${wordInName[1] || ''}` || email}
               </span>
               <img
                 src={image}
@@ -48,7 +50,7 @@ export default function Profile(
                 height={50}
                 className="rounded-full ml-6"
               />
-            </h2>
+            </span>
           </SheetTitle>
           <SheetDescription>
             Un gusto tenerte de vuelta, recuerda que puedes seguir aprendiendo con nosotros.
@@ -68,7 +70,7 @@ export default function Profile(
           <div className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Mi perfil
           </div>
-          <Button onClick={() => signOut()}>Cerrar sesion</Button>
+          <Button onClick={() => logout()}>Cerrar sesion</Button>
         </div>
       </SheetContent>
     </Sheet>

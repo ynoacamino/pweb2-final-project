@@ -1,23 +1,23 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { getServerSession } from 'next-auth';
-import { SessionGlobal } from '@/types/session';
+'use client';
+
+import { useAuth } from '@/components/providers/AuthProvider';
 import Login from './Login';
 import Profile from './Profile';
 
-export default async function Access() {
-  const session = await getServerSession(authOptions) as SessionGlobal;
+export default function Access() {
+  const { user } = useAuth();
 
-  if (!session) {
+  if (user) {
     return (
-      <Login />
+      <Profile
+        name={user?.name || ''}
+        email={user?.email || ''}
+        image={user?.image_url || ''}
+      />
     );
   }
 
   return (
-    <Profile
-      name={session.user?.name || ''}
-      email={session.user?.email || ''}
-      image={session.user?.image || ''}
-    />
+    <Login />
   );
 }

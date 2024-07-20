@@ -1,21 +1,22 @@
+'use client';
+
 import Description from '@/components/pages/course/Description';
 import RelatedCourses from '@/components/pages/course/RelatedCourses';
-import Sections from '@/components/pages/course/Sections';
 import Title from '@/components/pages/course/Title';
 
+import Sections from '@/components/pages/course/Sections';
 import { useFetch } from '../../../components/pages/fetch/useFetch';
 
-export default async function CursoPage({ params }: { params: { cursoID: string } }) {
+export default function CursoPage({ params }: { params: { cursoID: string } }) {
   const { cursoID } = params;
-  const data = await useFetch(`http://localhost:8000/academia/api/curso/${cursoID}`);
-  console.log(data)
+  const data = useFetch(`http://localhost:8000/academia/api/curso/${cursoID}/`) as any;
 
   return (
     <main className="w-full grid md:grid-cols-3 max-w-6xl mt-14 mb-20 gap-y-10">
       <div className="md:col-span-2 flex flex-col w-full px-4 gap-10">
         <Title image={data.image_url} name={data.name} />
         <Description description={data.description} />
-        <Sections sections={data.sections} />
+        <Sections cursoID={cursoID} />
       </div>
       <div className="flex flex-col w-full px-4 gap-10">
         <section className="bg-card rounded-md w-full flex flex-col gap-3 px-8 py-6">
@@ -35,11 +36,18 @@ export default async function CursoPage({ params }: { params: { cursoID: string 
         <section className="bg-card rounded-md w-full flex flex-col gap-3 px-8 py-6">
           <h1 className="text-2xl">Profesor</h1>
           <p>
-            ¡Hola! Soy {data.teacher.name}, y seré tu instructor en este curso. 
+            ¡Hola! Soy
+            {' '}
+            {data?.teacher?.name}
+            , y seré tu instructor en este curso.
             Estoy aquí para guiarte y apoyarte a lo largo de tu viaje de aprendizaje.
             Puedes contactarme si tienes alguna duda o necesitas asistencia adicional:
-            Teléfono: {data.teacher.phone_number}
-            Email: {data.teacher.email}
+            Teléfono:
+            {' '}
+            {data?.teacher?.phone_number}
+            Email:
+            {' '}
+            {data?.teacher?.email}
 
             Estoy emocionado de empezar este viaje contigo y espero que disfrutes y aprendas
             mucho en este curso.

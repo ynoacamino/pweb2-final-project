@@ -18,9 +18,11 @@ from django.contrib.auth.models import User as UserAuth
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def protected(request):
+def getUser(request):
+  # crea una ruta que atraves de un token obtenga el usuario
+  user = get_object_or_404(User, email=request.user.email)
 
-  return Response({'message': 'Ruta protegida'}, status=200)
+  return Response(UserSerializer(user).data, status=200)
 
 @api_view(['POST'])
 def login(request):

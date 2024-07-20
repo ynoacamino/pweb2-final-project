@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useFetch } from '../../components/pages/fetch/useFetch';
 import { Button } from '@/components/ui/button';
+import { useFetch } from '../../components/pages/fetch/useFetch';
+
 export default function PageRead() {
-  const courses = useFetch('http://localhost:8000/academia/api/curso/');
+  const courses = useFetch('http://localhost:8000/academia/api/curso/') as any[];
+
+  console.log(courses);
 
   return (
     <div className="w-full p-16">
@@ -20,18 +22,18 @@ export default function PageRead() {
         </div>
       </div>
       <div className="space-y-4">
-        {cursos.map((curso: any) => (
-          <div key={curso.id} className="mx-8 flex justify-between rounded-lg shadow-lg bg-white p-6">
+        {courses.map((curso: any) => (
+          <div key={curso.id} className="mx-8 flex justify-between rounded-lg shadow-lg bg-background p-6 ">
             <div className="max-w-6xl">
               <h2 className="text-xl font-bold">{curso.name}</h2>
               <p>{curso.description}</p>
             </div>
             <div className="flex items-center border-black p-4">
-              <Button className="mx-4 py-2 rounded bg-red-500 text-white hover:bg-red-600">
-                <a href="">Eliminar</a>
+              <Button className="mx-4 py-2 rounded bg-red-500  hover:bg-red-600">
+                <a href="/">Eliminar</a>
               </Button>
-              <Button className="mx-4 py-2 rounded bg-yellow-500 text-white hover:bg-yellow-600">
-                <a href="">Modificar</a>
+              <Button className="mx-4 py-2 rounded bg-yellow-500 hover:bg-yellow-600">
+                <a href="/">Modificar</a>
               </Button>
             </div>
           </div>

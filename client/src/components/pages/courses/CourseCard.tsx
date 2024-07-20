@@ -1,13 +1,15 @@
-import Image from 'next/image';
+import Link from 'next/link';
 
 export default function CourseCard(
-  { name, description, image }:
-  { name: string, description: string, image: string },
+  {
+    name, description, image, curso_id,
+  }:
+  { name: string, description: string, image: string, curso_id: string },
 ) {
   return (
-    <article className="w-full max-w-sm px-4">
+    <Link href={`/curso/${curso_id}`} className="w-full max-w-sm px-4">
       <div className="w-full flex flex-col items-center justify-start gap-4 rounded-md bg-card h-96 shadow-lg">
-        <Image
+        <img
           src={image}
           alt={name}
           width={300}
@@ -22,6 +24,6 @@ export default function CourseCard(
           </p>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
