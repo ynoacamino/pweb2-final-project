@@ -1,7 +1,5 @@
 'use client';
-
 import Description from '@/components/pages/course/Description';
-import RelatedCourses from '@/components/pages/course/RelatedCourses';
 import Title from '@/components/pages/course/Title';
 
 import Sections from '@/components/pages/course/Sections';
@@ -53,9 +51,6 @@ export default function CursoPage({ params }: { params: { cursoID: string } }) {
             mucho en este curso.
           </p>
         </section>
-      </div>
-      <div className="md:col-span-3 w-full">
-        <RelatedCourses />
       </div>
     </main>
   );
