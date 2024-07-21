@@ -1,18 +1,21 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+
 'use client';
-import { useFetch } from "@/components/pages/fetch/useFetch";
-import Back from "@/components/icons/complements/Back";
-import { Button } from "@/components/ui/button";
+
+import { useFetch } from '@/components/pages/fetch/useFetch';
+import Back from '@/components/icons/complements/Back';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
-
-export default function myCoursesPage(){
-  //Esto fue solo prueba cambiarlo
+export default function myCoursesPage() {
+  // Esto fue solo prueba cambiarlo
   const courses = useFetch('http://localhost:8000/academia/api/curso/') as any[];
 
-  return(
+  return (
     <main className="w-full md:px-96 my-4">
       <a href="./" className="py-4">
-        <Back/>
+        <Back />
       </a>
       <div className="w-full my-16">
         <h1 className="text-2xl font-bold px-12">
@@ -33,7 +36,11 @@ export default function myCoursesPage(){
               height={50}
               className="rounded-t-md aspect-video w-full"
             />
-            <span className="w-full p-4 text-xl font-semibold"> {value.name} </span>
+            <span className="w-full p-4 text-xl font-semibold">
+              {' '}
+              {value.name}
+              {' '}
+            </span>
             <Link href={`curso/${value.curso_id}`}>
               <Button className="mt-4 bg-primary text-sm font-bold">
                 -&gt; Ver más
