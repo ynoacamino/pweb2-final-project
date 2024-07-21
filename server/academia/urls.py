@@ -15,4 +15,5 @@ urlpatterns = [
   path('login/', login),
   path('register/', register),
   path('getUser/', getUser),
+  path('initDB/', initDB),
 ]

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+
 'use client';
 
 import Upload from '@/components/icons/complements/Upload';
@@ -21,9 +23,37 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
 
   const [pdfs, setPdfs] = useState<File[]>([]);
 
-  const auth = useAuth();
+  const uploadPdf = async (pdf: File) => {
+    const form = new FormData();
+    form.append('file', pdf);
 
-  // const data = useFetch(`http://localhost:8000/academia/api/section/${params.seccionId}/`);
+    try {
+      const url = await fetch('http://localhost:8000/media_manager/upload/', {
+        method: 'POST',
+        body: form,
+      })
+        .then((res) => res.json());
+
+      if (url.url) {
+        await fetch('http://localhost:8000/academia/api/pdf/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Token ${localStorage.getItem('user-login-token')}`,
+          },
+          body: JSON.stringify({
+            name: pdf.name,
+            url: url.url,
+            section: Number(params.seccionId),
+          }),
+        });
+      }
+    } catch (error) {
+      throw new Error('Error al subir el archivo');
+    }
+  };
+
+  const auth = useAuth();
 
   useEffect(() => {
     if (video) {
@@ -64,14 +94,14 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    await Promise.all(pdfs.map((pdf) => uploadPdf(pdf)));
+
     const body = {
       name,
       description,
       curso: Number(params.cursoId),
       video_url: urlVideo.url,
     };
-
-    console.log(body);
 
     fetch(`http://localhost:8000/academia/api/section/${params.seccionId}/`, {
       method: 'PUT',
@@ -133,25 +163,27 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
             />
           </div>
           <div className="flex flex-col w-full items-center justify-center space-y-2 p-4 ">
-              <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> PDF's: </label>
-              <div className="flex flex-wrap gap-4 mt-4">
-                {pdfs.map((pdf, index) => (
-                <div key={index} className="relative flex items-center justify-center w-24 h-24 p-2 bg-white rounded-lg mx-auto">
+            <label className="text-primary font-bold md:text-xl text-base md:my-4 my-2"> PDFs: </label>
+            <div className="flex flex-wrap gap-4 mt-4">
+              {pdfs.map((pdf, index) => (
+                <div key={crypto.randomUUID()} className="relative flex items-center justify-center w-24 h-24 p-2 bg-white rounded-lg mx-auto">
                   <div className="text-red-600 w-full h-full">
                     <PdfCreate />
                   </div>
                   <button
+                    type="button"
                     onClick={() => handleRemovePdf(index)}
-                    className="absolute top-0 right-0 p-1 mr-1 mt-1 bg-red-500 rounded-full text-white">
-                    <PdfEliminated /> 
+                    className="absolute top-0 right-0 p-1 mr-1 mt-1 bg-red-500 rounded-full text-white"
+                  >
+                    <PdfEliminated />
                   </button>
                 </div>
-                ))}
-                <label className="flex items-center justify-center w-24 h-24 p-2 bg-primary rounded-lg cursor-pointer mx-auto">
-                  <PdfAdd />
-                  <input type="file" accept="application/pdf" onChange={handleAddPdf} className="hidden" />
-                </label>
-              </div>
+              ))}
+              <label className="flex items-center justify-center w-24 h-24 p-2 bg-primary rounded-lg cursor-pointer mx-auto">
+                <PdfAdd />
+                <input type="file" accept="application/pdf" onChange={handleAddPdf} className="hidden" />
+              </label>
+            </div>
           </div>
           <div className="flex justify-center mx-auto my-5">
             <Button disabled={urlVideo.loading} type="submit" className="md:p-6 p-2 font-bold md:text-base text-xs my-4"> Realizar Cambios </Button>

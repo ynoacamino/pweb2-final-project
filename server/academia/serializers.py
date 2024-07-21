@@ -17,18 +17,23 @@ class SectionSerializerWhithOutAuth(serializers.ModelSerializer):
     model = Section
     fields = ['section_id', 'curso', 'name', 'description']
 
-class CursoSerializer(serializers.ModelSerializer):
-  teacher = UserSerializerWithOutAuth()
-  sections = SectionSerializerWhithOutAuth(many=True, read_only=True, source='section_set')
-  class Meta:
-    model = Curso
-    fields = ['curso_id', 'name', 'description', 'teacher', 'created_at', 'updated_at', 'sections', 'image_url']
-
 class ReviewSerializer(serializers.ModelSerializer):
   class Meta:
     model = Review
     fields = ['comment', 'user', 'curso', 'created_at', 'updated_at']
 
+class ReviewSerializerWithOutAuth(serializers.ModelSerializer):
+  user = UserSerializerWithOutAuth()
+  class Meta:
+    model = Review
+    fields = ['comment', 'user', 'curso', 'created_at', 'updated_at']
+class CursoSerializer(serializers.ModelSerializer):
+  teacher = UserSerializerWithOutAuth()
+  sections = SectionSerializerWhithOutAuth(many=True, read_only=True, source='section_set')
+  reviews = ReviewSerializerWithOutAuth(many=True, read_only=True, source='review_set')
+  class Meta:
+    model = Curso
+    fields = ['curso_id', 'name', 'description', 'teacher', 'created_at', 'updated_at', 'sections', 'image_url', 'reviews']
 class PdfSerializer(serializers.ModelSerializer):
   class Meta:
     model = Pdf

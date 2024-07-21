@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useAuth } from '@/components/providers/AuthProvider';
+import Link from 'next/link';
 import BrandTitle from './BrandTitle';
 
 export default function Profile(
@@ -61,15 +62,15 @@ export default function Profile(
           <div className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Mis cursos
           </div>
-          <div className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
+          <Link href="/cursos" className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Explorar
-          </div>
-          <div className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
+          </Link>
+          <Link href="/facturacion" className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Facturacion
-          </div>
-          <div className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
+          </Link>
+          <Link href="/me" className="w-full rounded-md py-4 px-6 text-center text-xl font-semibold border border-input hover:bg-accent transition-colors duration-75 hover:cursor-pointer">
             Mi perfil
-          </div>
+          </Link>
           <Button onClick={() => logout()}>Cerrar sesion</Button>
         </div>
       </SheetContent>

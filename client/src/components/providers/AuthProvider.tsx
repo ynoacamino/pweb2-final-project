@@ -35,7 +35,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log({ data });
           setUser(data);
           setLoading(false);
         });
@@ -62,13 +61,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }),
       }).then((res) => res.json());
       if (tk?.token) {
-        console.log({ tk });
         localStorage.setItem('user-login-token', tk.token);
         window.location.replace('/');
       }
     } catch (err) {
       // toast.error('Usuario o contraseña erronea');
-      console.log(err);
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -92,12 +89,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }),
       }).then((res) => res.json());
       if (tk?.token) {
-        console.log({ tk });
         localStorage.setItem('user-login-token', tk.token);
         window.location.replace('/');
       }
     } catch (err) {
-      console.log(err);
       toast({
         variant: 'destructive',
         title: 'Error',
