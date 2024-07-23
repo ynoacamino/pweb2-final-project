@@ -100,6 +100,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
     }
   };
+
+  const registerTeacher = async ({
+    email, password, name, phone_number, image_url,
+  } :{
+    email: string, password: string, name: string, phone_number: string, image_url: string
+  }) => {
+    try {
+      const tk = await fetch('http://localhost:8000/academia/api/registerTeacher/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email, password, name, phone_number, image_url,
+        }),
+      }).then((res) => res.json());
+      if (tk?.token) {
+        localStorage.setItem('user-login-token', tk.token);
+        window.location.replace('/');
+      }
+    } catch (err) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Error al registrar el usuario',
+      });
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('user-login-token');
     setUser(null);
@@ -127,6 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         logout,
         register,
+        registerTeacher,
         isTeacher,
         isStudent,
       }}

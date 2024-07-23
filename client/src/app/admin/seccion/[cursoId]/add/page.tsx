@@ -95,7 +95,7 @@ export default function PageAdd({ params }: { params: { cursoId: string } }) {
     return <div>Loading...</div>;
   }
 
-  // isTeacher();
+  isTeacher();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

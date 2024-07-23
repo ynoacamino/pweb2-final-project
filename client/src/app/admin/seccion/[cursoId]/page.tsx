@@ -6,8 +6,8 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import Link from 'next/link';
 
 export default function PageRead({ params }: { params: { cursoId: string } }) {
-  // const { loading, isTeacher } = useAuth();
-  const { loading } = useAuth();
+  const { loading, isTeacher } = useAuth();
+  // const { loading } = useAuth();
 
   const data = useFetch(`http://localhost:8000/academia/api/curso/${params.cursoId}/`) as any;
 
@@ -15,7 +15,7 @@ export default function PageRead({ params }: { params: { cursoId: string } }) {
     return <div>Loading...</div>;
   }
 
-  // isTeacher();
+  isTeacher();
 
   console.log(data);
 

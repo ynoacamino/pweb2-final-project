@@ -130,7 +130,7 @@ export default function PageEdit({ params }: { params: { cursoId: string; seccio
     setPdfs(pdfs.filter((_, i) => i !== index));
   };
 
-  // auth.isTeacher();
+  auth.isTeacher();
 
   return (
     <div className="flex w-full md:px-60 md:py-20 px-6 my-10 md:my-2">

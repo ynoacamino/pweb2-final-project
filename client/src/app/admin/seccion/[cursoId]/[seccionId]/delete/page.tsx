@@ -29,7 +29,7 @@ export default function PageDelete({ params }: { params: { seccionId: string } }
     });
   };
 
-  // auth.isTeacher();
+  auth.isTeacher();
 
   return (
     <div className="w-full my-6 space-y-2 md:space-y-4">

@@ -192,6 +192,32 @@ def register(request):
 
   return Response({'token': token.key, 'user': UserSerializer(user).data}, status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+def registerTeacher(request):
+  serializer = UserSerializer(data=request.data)
+
+  if not serializer.is_valid():
+    return Response(serializer.errors, status=400)
+  
+  user = User.objects.create(
+    email=serializer.validated_data['email'],
+    name=serializer.validated_data['name'],
+    phone_number=serializer.validated_data['phone_number'],
+    image_url=serializer.validated_data['image_url']
+    role="teacher"
+  )
+
+  user.set_password(serializer.validated_data['password'])
+  user.save()
+
+  userToken = UserAuth.objects.create(email=serializer.validated_data['email'], username=serializer.validated_data['email'])
+  userToken.save()
+
+  token = Token.objects.create(user=userToken)
+
+  return Response({'token': token.key, 'user': UserSerializer(user).data}, status=status.HTTP_201_CREATED)
+
+
 class UserViewSet(viewsets.ModelViewSet):
   queryset = User.objects.all()
   serializer_class = UserSerializer
