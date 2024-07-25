@@ -43,7 +43,7 @@ export default function SignUp() {
       image_url: `https://api.dicebear.com/7.x/pixel-art/svg?seed=$${formData.get('email')}`,
     };
 
-    auth.register({
+    auth.registerTeacher({
       email: data.email as string,
       password: data.password as string,
       name: data.name as string,
@@ -111,4 +111,3 @@ export default function SignUp() {
     </div>
   );
 }
-

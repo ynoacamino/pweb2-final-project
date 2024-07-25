@@ -136,13 +136,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const isTeacher = () => {
-    if (!user || user.rol !== 'teacher') {
+    console.log(user);
+    if (!user || user.role !== 'teacher') {
       router.push('/');
     }
   };
 
   const isStudent = () => {
-    if (!user || user.rol !== 'student') {
+    if (!user || user.role !== 'student') {
       router.push('/');
     }
   };

@@ -89,7 +89,7 @@ export default function PageAdd({ params }: { params: { cursoId: string } }) {
     setPreview(null);
   };
 
-  const { loading } = useAuth();
+  const { loading, isTeacher } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>;

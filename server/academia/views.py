@@ -203,7 +203,7 @@ def registerTeacher(request):
     email=serializer.validated_data['email'],
     name=serializer.validated_data['name'],
     phone_number=serializer.validated_data['phone_number'],
-    image_url=serializer.validated_data['image_url']
+    image_url=serializer.validated_data['image_url'],
     role="teacher"
   )
 

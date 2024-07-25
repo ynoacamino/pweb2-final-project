@@ -44,13 +44,15 @@ export default function PageDelete({ params }: { params: { seccionId: string } }
       </div>
       <div className="flex items-center justify-center">
         <div className="max-w-2xl border-2 m-4 bg-transparent">
-          <img
+          <video
+            controls
             className="mx-auto rounded-md shadow-lg"
-            src="https://res.cloudinary.com/dk5ic4rxo/image/upload/v1719452523/cld-sample-2_qebvkx.jpg"
-            alt="Imagen de colores arremolinados interactuando"
+            src={data.video_url}
             width={640}
             height={480}
-          />
+          >
+            <track kind="captions" src="captions.vtt" label="English" />
+          </video>
         </div>
       </div>
       <div className="w-full flex justify-center items-center p-8">
